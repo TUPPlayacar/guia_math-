@@ -1,0 +1,2328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math+ | Guía de Estudio Interactiva</title>
+  <link rel="icon" type="image/jpeg" href="matematicas.jpg" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --primary: #0ea5e9;
+      --primary-soft: #e0f2fe;
+      --primary-dark: #0369a1;
+      --secondary: #10b981;
+      --secondary-soft: #d1fae5;
+      --accent: #f97316;
+      --accent-soft: #ffedd5;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 12px rgba(0,0,0,0.06);
+      --radius: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.65;
+      display: flex; flex-direction: column; min-height: 100vh;
+    }
+
+    /* Logo institucional */
+    .brand-logo {
+      display: block;
+      width: 150px;
+      height: 92px;
+      object-fit: contain;
+      object-position: center;
+      margin: 0 auto 8px;
+      border-radius: 10px;
+      background: #ffffff;
+    }
+    .mobile-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+    .mobile-brand .brand-logo {
+      width: 44px;
+      height: 36px;
+      margin: 0;
+      border-radius: 6px;
+    }
+    .sidebar-brand {
+      text-align: center;
+      margin-bottom: 2px;
+    }
+    .sidebar-brand .brand-logo {
+      margin-bottom: 7px;
+    }
+
+    /* Topbar Móvil y Hamburguesa */
+    .mobile-header {
+      display: none; background: var(--card); border-bottom: 1px solid var(--border);
+      padding: 12px 20px; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 101; box-shadow: var(--shadow);
+    }
+    .mobile-header h1 { font-size: 1.1rem; color: var(--primary); }
+    .hamburger-btn {
+      background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--text);
+    }
+
+    /* Layout Principal */
+    .app-container { display: flex; flex: 1; position: relative; }
+
+    /* Sidebar con fondo igual al logo / página principal */
+    .sidebar {
+      width: 270px; background: var(--bg); border-right: 1px solid var(--border);
+      padding: 22px 14px; position: fixed; height: 100vh; overflow-y: auto; z-index: 100;
+      transition: transform 0.3s ease;
+    }
+    .sidebar h1 { font-size: 1.1rem; color: var(--primary); margin-bottom: 4px; padding: 0 8px; }
+    .sidebar .subtitle { font-size: 0.78rem; color: var(--text-light); margin-bottom: 22px; padding: 0 8px; }
+    .nav-item {
+      display: block; padding: 11px 13px; margin-bottom: 3px; border-radius: 8px;
+      color: var(--text); text-decoration: none; font-weight: 500; font-size: 0.93rem;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .nav-item:hover, .nav-item.active { background: var(--primary-soft); color: var(--primary-dark); font-weight: 600; }
+
+    /* Widget Flotante de Gamificación (XP) */
+    .xp-widget {
+      background: linear-gradient(135deg, #0ea5e9, #0369a1); color: white;
+      border-radius: var(--radius); padding: 12px 16px; margin-bottom: 18px;
+      box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+    }
+    .xp-widget-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; }
+    .xp-amount { font-size: 1.5rem; font-weight: 700; margin: 2px 0; }
+    .xp-level { font-size: 0.82rem; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 10px; display: inline-block; }
+
+    /* Contenido Principal */
+    .main { margin-left: 270px; flex: 1; padding: 30px 36px 50px; max-width: 960px; }
+    .section { display: none; animation: fadeIn 0.25s ease; }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    h2 { font-size: 1.7rem; margin-bottom: 6px; color: var(--text); }
+    h3 { font-size: 1.22rem; color: var(--primary-dark); margin: 26px 0 12px; border-bottom: 2px solid var(--primary-soft); padding-bottom: 4px; }
+    h4 { font-size: 1.05rem; margin: 18px 0 8px; color: var(--text); }
+    p, li { margin-bottom: 8px; }
+    .meta { color: var(--text-light); font-size: 0.93rem; margin-bottom: 20px; }
+
+    /* Cards */
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 20px 24px; margin-bottom: 20px; box-shadow: var(--shadow);
+    }
+    .card.highlight { border-left: 5px solid var(--primary); background: #f0f9ff; }
+    .card.success { border-left: 5px solid var(--secondary); background: #f0fdf4; }
+    .card.warning { border-left: 5px solid var(--accent); background: #fff7ed; }
+    .card.purple { border-left: 5px solid #a855f7; background: #faf5ff; }
+
+    .card-visual {
+      display: flex; gap: 20px; align-items: center; margin-bottom: 15px;
+    }
+    .card-visual img, .card-visual svg {
+      width: 100px; height: 100px; flex-shrink: 0; border-radius: 8px; object-fit: cover;
+    }
+
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.73rem;
+      font-weight: 600; margin-right: 5px; margin-bottom: 5px;
+    }
+    .badge-blue { background: var(--primary-soft); color: var(--primary-dark); }
+    .badge-green { background: var(--secondary-soft); color: #047857; }
+    .badge-orange { background: var(--accent-soft); color: #c2410c; }
+    .badge-purple { background: #f3e8ff; color: #6b21a8; }
+
+    /* Tablas */
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.93rem; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: var(--primary-soft); color: var(--primary-dark); font-weight: 600; }
+
+    .formula {
+      background: #f1f5f9; padding: 12px 18px; border-radius: 8px;
+      font-family: 'Cambria Math', 'Times New Roman', serif; margin: 12px 0; overflow-x: auto;
+      font-size: 1.1rem; border-left: 3px solid var(--primary);
+    }
+
+    /* Fórmula breve visible en cada ejercicio */
+    .formula-mini {
+      display: inline-block; max-width: 100%; box-sizing: border-box;
+      margin: 7px 0 10px; padding: 5px 10px;
+      background: #eaf3ff; color: #174ea6; border: 1px solid #bfdbfe;
+      border-left: 3px solid #2563eb; border-radius: 6px;
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-size: 0.82rem; line-height: 1.35; overflow-x: auto;
+    }
+    .formula-mini strong { font-family: Arial, sans-serif; font-size: 0.72rem; margin-right: 5px; }
+    .formula-mini .katex-display { display: inline-block; margin: 0; }
+
+    /* Acordeones */
+    .accordion { margin-bottom: 12px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+    .accordion-header {
+      background: var(--card); padding: 14px 18px; cursor: pointer; font-weight: 600;
+      display: flex; justify-content: space-between; align-items: center; transition: background 0.2s;
+    }
+    .accordion-header:hover { background: var(--primary-soft); }
+    .accordion-header.active { background: var(--primary-soft); color: var(--primary-dark); }
+    .accordion-content {
+      display: none; padding: 18px; background: #fff; border-top: 1px solid var(--border);
+    }
+    .accordion-content.show { display: block; }
+
+    /* Interactividad de Ejercicios del Alumno */
+    .interactive-exercise {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 10px;
+      padding: 16px; margin: 14px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .eval-box { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+    .eval-box input[type="text"], .eval-box input[type="number"] {
+      flex: 1; min-width: 180px; padding: 9px 12px; border: 1px solid var(--border);
+      border-radius: 8px; font-size: 0.95rem;
+    }
+    .feedback-msg { margin-top: 10px; font-weight: 600; padding: 8px 12px; border-radius: 6px; display: none; }
+    .feedback-success { background: var(--secondary-soft); color: #047857; display: block; }
+    .feedback-error { background: #fee2e2; color: #b91c1c; display: block; }
+
+    .simulator-box {
+      margin-top: 15px; padding: 14px; background: #f0fdf4; border: 1px dashed var(--secondary);
+      border-radius: 8px; display: none; animation: fadeIn 0.3s ease;
+    }
+
+    /* Botones */
+    .btn {
+      display: inline-block; padding: 9px 16px; border-radius: 8px; border: none;
+      font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; margin: 4px 4px 4px 0;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: #0284c7; }
+    .btn-soft { background: var(--primary-soft); color: var(--primary-dark); }
+    .btn-soft:hover { background: #bae6fd; }
+    .btn-green { background: var(--secondary); color: white; }
+    .btn-green:hover { background: #059669; }
+    .btn-orange { background: var(--accent); color: white; }
+    .btn-orange:hover { background: #ea580c; }
+
+    textarea, input[type="text"], select {
+      width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 8px;
+      font-family: inherit; font-size: 0.95rem; resize: vertical;
+    }
+    label { font-weight: 600; display: block; margin-bottom: 5px; }
+
+    .opcion-card {
+      border: 2px solid var(--border); border-radius: 10px; padding: 14px; cursor: pointer;
+      transition: all 0.2s; background: #fff; text-align: center;
+    }
+    .opcion-card:hover, .opcion-card.selected { border-color: var(--primary); background: var(--primary-soft); }
+
+    /* Modales */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5);
+      z-index: 1000; justify-content: center; align-items: center; padding: 20px;
+      backdrop-filter: blur(3px);
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: white; border-radius: 16px; max-width: 700px; width: 100%;
+      max-height: 88vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+      border: 1px solid #e2e8f0; animation: modalIn 0.25s ease;
+    }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .modal-header {
+      padding: 18px 24px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: #f0f9ff; border-radius: 16px 16px 0 0;
+    }
+    .modal-header h3 { margin: 0; font-size: 1.15rem; color: var(--primary-dark); }
+    .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
+    .modal-body { padding: 22px 24px; }
+    .pass-box { padding: 24px; text-align: center; }
+    .pass-box input {
+      width: 100%; max-width: 260px; padding: 10px 14px; border: 1px solid var(--border);
+      border-radius: 8px; font-size: 1rem; margin: 12px 0; text-align: center;
+    }
+    .pass-error { color: #dc2626; font-size: 0.9rem; margin-top: 8px; display: none; }
+
+    footer {
+      margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--border);
+      color: var(--text-light); font-size: 0.88rem; text-align: center;
+    }
+
+    .oportunidades-indicador {
+      width: 100%; margin-top: 8px; padding: 7px 10px; border-radius: 7px;
+      background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;
+      font-size: 0.86rem; text-align: left;
+    }
+    .oportunidades-indicador i { margin-right: 5px; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .mobile-header { display: flex; }
+      .sidebar {
+        transform: translateX(-100%); position: fixed; top: 0; left: 0; height: 100vh;
+        width: 280px; box-shadow: 10px 0 25px rgba(0,0,0,0.15);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; padding: 20px 16px; }
+      .card-visual { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* Iconos Font Awesome y matemáticas KaTeX */
+    i.fa-solid { margin-right: 0.45em; }
+    .accordion-header span i, .hamburger-btn i, .modal-close i { margin: 0; }
+    .nav-item i { width: 1.3em; text-align: center; }
+    .c-blue { color: #0ea5e9; } .c-orange { color: #f97316; } .c-green { color: #10b981; } .c-purple { color: #a855f7; }
+    .opc-ico { display: block; margin: 0 auto 6px !important; font-size: 1.7rem; color: var(--primary); }
+    .formula .katex-display { margin: 0; }
+    .teacher-view .resultado-docente, .teacher-view .resultado-docente * { color: #15803d !important; text-decoration: underline !important; text-decoration-color: #16a34a !important; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+    .teacher-view .teacher-result { border-left: 4px solid #16a34a; background: #f0fdf4; padding: 12px 15px; border-radius: 8px; margin: 10px 0; }
+    .teacher-view .teacher-badge { color: #15803d; font-weight: 700; margin-bottom: 8px; }
+
+    .formula { font-size: 1.05rem; }
+    .katex { font-size: 1.08em; }
+    .simulator-box p, .modal-body p, .modal-body li { overflow-x: auto; overflow-y: hidden; }
+  </style>
+</head>
+<body>
+
+<!-- Header Móvil con Hamburguesa -->
+<header class="mobile-header">
+  <div class="mobile-brand">
+    <img class="brand-logo" src="matematicas.jpg" alt="Logo de Matemáticas">
+    <h1>Math+</h1>
+  </div>
+  <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
+</header>
+
+<div class="app-container">
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <img class="brand-logo" src="matematicas.jpg" alt="Logo de Matemáticas">
+    <h1><i class="fa-solid fa-square-root-variable"></i> Math+</h1>
+  </div>
+  <p class="subtitle" style="font-weight:700;color:var(--primary-dark);margin-bottom:6px;line-height:1.3">M15- Cálculo en Fenómenos Naturales y Procesos Sociales</p>
+  <p class="subtitle">Guía completa · 4 Sesiones + Reto Final</p>
+
+  <!-- Widget Flotante de Puntos XP -->
+  <div class="xp-widget" onclick="pedirPassword('reset-xp')" title="Administrador: reiniciar XP" style="cursor:pointer">
+    <div class="xp-widget-title">Puntuación Total</div>
+    <div class="xp-amount" id="totalXP">0 XP</div>
+    <div class="xp-level" id="playerLevel">Explorador</div>
+    <div style="font-size:0.72rem;margin-top:5px;opacity:.85">Administrador: clic para reiniciar XP</div>
+  </div>
+
+  <a class="nav-item active" data-section="inicio" onclick="closeSidebarMobile()"><i class="fa-solid fa-house"></i> Inicio</a>
+  <a class="nav-item" data-section="formulario" onclick="closeSidebarMobile()"><i class="fa-solid fa-square-root-variable"></i> Formulario </a>
+  <a class="nav-item" data-section="sesion1" onclick="closeSidebarMobile()"><i class="fa-solid fa-chart-line c-blue"></i> Sesión 1: Funciones</a>
+  <a class="nav-item" data-section="sesion2" onclick="closeSidebarMobile()"><i class="fa-solid fa-gauge-high c-orange"></i> Sesión 2: Derivada</a>
+  <a class="nav-item" data-section="sesion3" onclick="closeSidebarMobile()"><i class="fa-solid fa-sliders c-green"></i> Sesión 3: Optimización</a>
+  <a class="nav-item" data-section="sesion4" onclick="closeSidebarMobile()"><i class="fa-solid fa-chart-area c-purple"></i> Sesión 4: Integración</a>
+  <a class="nav-item" data-section="reto" onclick="closeSidebarMobile()"><i class="fa-solid fa-trophy c-orange"></i> Reto Final Integrador</a>
+  <a class="nav-item" data-section="glosario" onclick="closeSidebarMobile()"><i class="fa-solid fa-book"></i> Glosario</a>
+  
+</nav>
+
+<main class="main">
+
+<!-- ===================== INICIO ===================== -->
+<section id="inicio" class="section active">
+  <div style="display:inline-block;background:var(--primary-soft);color:var(--primary-dark);font-weight:700;padding:6px 14px;border-radius:999px;margin-bottom:10px;font-size:0.9rem"><i class="fa-solid fa-graduation-cap"></i> M15- Cálculo en Fenómenos Naturales y Procesos Sociales</div>
+  <h2>Matemáticas Aplicada para la Toma de Decisiones</h2>
+  <p class="meta">Programa de 4 sesiones + Reto Final integrador · 6 horas por sesión · ABP + Taxonomía de Bloom + Pomodoros + Gamificación XP</p>
+
+  <div style="margin:4px 0 18px">
+    <a class="btn btn-primary" href="guia_usuario.pdf" download="guia_usuario.pdf" style="text-decoration:none;background:var(--primary-dark)"><i class="fa-solid fa-file-pdf"></i> Descargar manual de usuario (PDF)</a>
+  </div>
+
+  <div class="card highlight">
+    <h3><i class="fa-solid fa-bullseye"></i> Propósito General</h3>
+    <p>Desarrollar la capacidad de <strong>modelar, medir, optimizar y acumular</strong> información matemática para tomar decisiones fundamentadas en contextos reales.</p>
+  </div>
+
+  <div class="card">
+    <h3><i class="fa-solid fa-calendar-days"></i> Estructura Completa del Programa</h3>
+    <table>
+      <thead><tr><th>Sesión</th><th>Pregunta Guía</th><th>Enfoque Principal</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td>¿Qué está pasando?</td><td>Funciones, variables, gráficas y modelación</td></tr>
+        <tr><td><strong>2</strong></td><td>¿Qué tan rápido está cambiando?</td><td>Derivada como razón de cambio</td></tr>
+        <tr><td><strong>3</strong></td><td>¿Cuál es la mejor decisión?</td><td>Máximos, mínimos y optimización</td></tr>
+        <tr><td><strong>4</strong></td><td>¿Cuánto ocurrió realmente?</td><td>Integral como acumulación</td></tr>
+        <tr><td><strong>Reto</strong></td><td>Matemáticas para decidir</td><td>Integración de los 4 niveles</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><i class="fa-solid fa-gamepad"></i> Sistema de Gamificación XP Acumulable</h3>
+    <table>
+      <tr><th>Acción Realizada</th><th>Puntos XP</th></tr>
+      <tr><td>Completar bloque teórico / Explorar conocimientos previos</td><td>+50 XP</td></tr>
+      <tr><td>Resolver ejemplo guiado interactivo</td><td>+30 XP</td></tr>
+      <tr><td>Resolver ejercicio ABP correctamente</td><td>+80 XP</td></tr>
+      <tr><td>Participar en análisis / evaluación</td><td>+40 XP</td></tr>
+      <tr><td>Crear modelo propio (producto final)</td><td>+150 XP</td></tr>
+      <tr><td>Bonus por precisión y explicación clara</td><td>+20–50 XP</td></tr>
+      <tr><td><strong>Total Posible por Sesión</strong></td><td><strong>≈ 800–900 XP</strong></td></tr>
+    </table>
+    <p style="margin-top:10px"><strong>Niveles de Jugador:</strong> 0–200 XP: Explorador · 201–450 XP: Analista · 451–700 XP: Modelador · 701+ XP: Creador de Fenómenos</p>
+  </div>
+
+  <div class="card">
+    <h3><i class="fa-solid fa-clock"></i> Horario Tipo de Cada Sesión (6 Horas con Pomodoros)</h3>
+    <table>
+      <tr><th>Hora</th><th>Bloque</th><th>Duración</th><th>Nivel Bloom</th></tr>
+      <tr><td>08:00 – 08:50</td><td>Inicio: Exploración + Teoría + Ejemplos</td><td>50 min</td><td>Recordar + Comprender</td></tr>
+      <tr><td>08:50 – 09:00</td><td>Descanso Pomodoro</td><td>10 min</td><td>—</td></tr>
+      <tr><td>09:00 – 09:50</td><td>Desarrollo 1: Aplicar (Ejercicios Prácticos)</td><td>50 min</td><td>Aplicar</td></tr>
+      <tr><td>09:50 – 10:00</td><td>Descanso Pomodoro</td><td>10 min</td><td>—</td></tr>
+      <tr><td>10:00 – 10:50</td><td>Desarrollo 2: Analizar (Profundización)</td><td>50 min</td><td>Analizar</td></tr>
+      <tr><td>10:50 – 11:05</td><td>Descanso largo + snack</td><td>15 min</td><td>—</td></tr>
+      <tr><td>11:05 – 12:00</td><td>Desarrollo 3: Evaluar (Reto Crítico)</td><td>55 min</td><td>Evaluar</td></tr>
+      <tr><td>12:00 – 12:15</td><td>Descanso Pomodoro</td><td>15 min</td><td>—</td></tr>
+      <tr><td>12:15 – 13:15</td><td>Cierre: Crear (Modelo Propio)</td><td>60 min</td><td>Crear</td></tr>
+      <tr><td>13:15 – 13:25</td><td>Descanso Pomodoro</td><td>10 min</td><td>—</td></tr>
+      <tr><td>13:25 – 14:00</td><td>Cierre + Ticket de Salida + XP Final</td><td>35 min</td><td>Metacognición</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===================== FORMULARIO DE FÓRMULAS PARA ALUMNOS ===================== -->
+<section id="formulario" class="section">
+  <h2><i class="fa-solid fa-square-root-variable c-blue"></i> Formulario</h2>
+  <p class="meta">Consulta estas relaciones durante las actividades. Identifica qué representa cada variable y revisa que las unidades sean compatibles.</p>
+  <div class="card highlight">
+    <h3>Cómo usar el formulario</h3>
+    <p>1. Lee qué magnitud necesitas calcular. 2. Identifica los datos conocidos. 3. Escoge la fórmula correspondiente. 4. Sustituye los valores con paréntesis. 5. Opera y escribe las unidades. Las fórmulas son una guía: debes mostrar tu procedimiento.</p>
+  </div>
+  <div class="card">
+    <h3>1. Funciones y modelación</h3>
+    <table><thead><tr><th>Concepto</th><th>Fórmula</th><th>Uso / significado</th></tr></thead><tbody>
+      <tr><td>Notación de función</td><td>\(y=f(x)\)</td><td>A cada entrada \(x\) le corresponde una salida \(y\).</td></tr>
+      <tr><td>Función lineal</td><td>\(y=mx+b\)</td><td>\(m\) es la pendiente o cambio por unidad; \(b\) es el valor inicial.</td></tr>
+      <tr><td>Pendiente entre dos puntos</td><td>\(m=\frac{y_2-y_1}{x_2-x_1}\), si \(x_2\ne x_1\)</td><td>Cambio vertical dividido entre cambio horizontal.</td></tr>
+      <tr><td>Función proporcional</td><td>\(y=kx\)</td><td>La razón \(y/x=k\) es constante cuando está definida.</td></tr>
+      <tr><td>Función cuadrática</td><td>\(f(x)=ax^2+bx+c\), \(a\ne0\)</td><td>Modelo parabólico con posible máximo o mínimo.</td></tr>
+      <tr><td>Vértice de una cuadrática</td><td>\(x_v=-\frac{b}{2a}\), \(y_v=f(x_v)\)</td><td>Si \(a&gt;0\), el vértice es mínimo; si \(a&lt;0\), es máximo.</td></tr>
+      <tr><td>Valor promedio de dos datos</td><td>\(\bar{x}=\frac{x_1+x_2+\cdots+x_n}{n}\)</td><td>Suma de los datos dividida entre el número de datos.</td></tr>
+    </tbody></table>
+  </div>
+  <div class="card">
+    <h3>2. Razones de cambio y derivadas</h3>
+    <table><thead><tr><th>Concepto</th><th>Fórmula</th><th>Uso / significado</th></tr></thead><tbody>
+      <tr><td>Cambio de una variable</td><td>\(\Delta y=f(b)-f(a)\)</td><td>Diferencia entre el valor final y el inicial.</td></tr>
+      <tr><td>Razón de cambio promedio</td><td>\(\frac{f(b)-f(a)}{b-a}\), con \(b\ne a\)</td><td>Pendiente de la secante en un intervalo.</td></tr>
+      <tr><td>Definición de derivada</td><td>\(f'(x)=\lim_{h\to0}\frac{f(x+h)-f(x)}{h}\)</td><td>Razón de cambio instantánea, cuando el límite existe.</td></tr>
+      <tr><td>Constante</td><td>\(\frac{d}{dx}(c)=0\)</td><td>La derivada de una constante es cero.</td></tr>
+      <tr><td>Regla de la potencia</td><td>\(\frac{d}{dx}(x^n)=nx^{n-1}\)</td><td>Para potencias donde la regla está definida.</td></tr>
+      <tr><td>Constante por función</td><td>\(\frac{d}{dx}[c f(x)]=c f'(x)\)</td><td>La constante se conserva.</td></tr>
+      <tr><td>Suma o resta</td><td>\((f\pm g)'=f'\pm g'\)</td><td>Deriva cada término por separado.</td></tr>
+      <tr><td>Producto</td><td>\((fg)'=f'g+fg'\)</td><td>Derivada del primero por el segundo más el primero por la derivada del segundo.</td></tr>
+      <tr><td>Cociente</td><td>\(\left(\frac{f}{g}\right)'=\frac{f'g-fg'}{g^2}\), \(g\ne0\)</td><td>Numerador: derivada de arriba por abajo menos arriba por derivada de abajo.</td></tr>
+      <tr><td>Regla de la cadena</td><td>\(\frac{d}{dx}f(g(x))=f'(g(x))g'(x)\)</td><td>Deriva la función exterior y multiplica por la derivada interior.</td></tr>
+      <tr><td>Derivada de una lineal</td><td>Si \(f(x)=mx+b\), entonces \(f'(x)=m\)</td><td>La pendiente es constante.</td></tr>
+      <tr><td>Derivada de una cuadrática</td><td>Si \(f(x)=ax^2+bx+c\), entonces \(f'(x)=2ax+b\)</td><td>Se deriva cada término.</td></tr>
+    </tbody></table>
+  </div>
+  <div class="card">
+    <h3>3. Optimización: máximos y mínimos</h3>
+    <table><thead><tr><th>Procedimiento</th><th>Fórmula o condición</th><th>Qué hacer</th></tr></thead><tbody>
+      <tr><td>Puntos críticos</td><td>\(f'(x)=0\) o donde \(f'(x)\) no exista</td><td>Resolver y revisar los puntos que pertenezcan al dominio.</td></tr>
+      <tr><td>Prueba de la segunda derivada</td><td>\(f''(c)&gt;0\): mínimo local; \(f''(c)&lt;0\): máximo local</td><td>Debe cumplirse además \(f'(c)=0\); si \(f''(c)=0\), la prueba no concluye.</td></tr>
+      <tr><td>Cuadrática: punto óptimo</td><td>\(x_v=-\frac{b}{2a}\)</td><td>Para \(ax^2+bx+c\), si \(a&lt;0\) maximiza y si \(a&gt;0\) minimiza.</td></tr>
+      <tr><td>Despeje lineal</td><td>Si \(ax+b=0\), entonces \(x=-\frac{b}{a}\), \(a\ne0\)</td><td>Aísla la variable con operaciones iguales en ambos lados.</td></tr>
+      <tr><td>Ganancia</td><td>\(G(x)=I(x)-C(x)\)</td><td>Ingreso menos costo, si ambas funciones están definidas por separado.</td></tr>
+      <tr><td>Ingreso básico</td><td>\(I(x)=p(x)\,x\)</td><td>Precio por unidad multiplicado por unidades vendidas, si el precio es constante.</td></tr>
+      <tr><td>Beneficio acumulado por días</td><td>\(G_{\text{periodo}}=G_{\text{diario}}\,n\)</td><td>Solo si la ganancia diaria se mantiene igual durante los \(n\) días.</td></tr>
+    </tbody></table>
+  </div>
+  <div class="card">
+    <h3>4. Integrales y acumulación</h3>
+    <table><thead><tr><th>Concepto</th><th>Fórmula</th><th>Uso / significado</th></tr></thead><tbody>
+      <tr><td>Regla de la potencia para integrar</td><td>\(\int x^n\,dx=\frac{x^{n+1}}{n+1}+C\), si \(n\ne-1\)</td><td>Aumenta el exponente en uno y divide entre el nuevo exponente.</td></tr>
+      <tr><td>Integral de una constante</td><td>\(\int k\,dx=kx+C\)</td><td>La constante se multiplica por la variable de integración.</td></tr>
+      <tr><td>Linealidad</td><td>\(\int(af(x)+bg(x))\,dx=a\int f(x)\,dx+b\int g(x)\,dx\)</td><td>Integra término a término y conserva los factores constantes.</td></tr>
+      <tr><td>Integral definida</td><td>\(\int_a^b f(x)\,dx=F(b)-F(a)\), donde \(F'=f\)</td><td>Encuentra una antiderivada y evalúa límite superior menos inferior.</td></tr>
+      <tr><td>Distancia desde la velocidad</td><td>\(d=\int_a^b v(t)\,dt\)</td><td>Da desplazamiento neto; coincide con distancia si la velocidad no cambia de signo.</td></tr>
+      <tr><td>Acumulación de una tasa</td><td>\(A=\int_a^b r(t)\,dt\)</td><td>Acumula la tasa \(r(t)\) a lo largo del intervalo.</td></tr>
+      <tr><td>Teorema fundamental del cálculo</td><td>\(\frac{d}{dx}\int_a^x f(t)\,dt=f(x)\)</td><td>Relaciona derivación e integración para funciones continuas.</td></tr>
+      <tr><td>Área geométrica</td><td>\(A=\int_a^b f(x)\,dx\) si \(f(x)\ge0\)</td><td>Si la curva queda debajo del eje, la integral es negativa en esa parte; el área geométrica requiere considerar el valor absoluto o separar intervalos.</td></tr>
+    </tbody></table>
+  </div>
+  <div class="card warning">
+    <h3>5. Reglas de álgebra que ayudan a despejar</h3>
+    <ul>
+      <li><strong>Distribuir:</strong> \(a(b+c)=ab+ac\).</li>
+      <li><strong>Factor común:</strong> \(ab+ac=a(b+c)\).</li>
+      <li><strong>Potencia:</strong> \(x^m x^n=x^{m+n}\); \(\frac{x^m}{x^n}=x^{m-n}\), con denominadores distintos de cero.</li>
+      <li><strong>Ecuación cuadrática:</strong> \(ax^2+bx+c=0\Rightarrow x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\), con \(a\ne0\).</li>
+      <li><strong>Porcentaje:</strong> \(\text{porcentaje}=\frac{\text{parte}}{\text{total}}\times100\%\).</li>
+      <li><strong>Conversión de energía:</strong> \(1\,\text{kWh}=1000\,\text{Wh}\).</li>
+    </ul>
+    <p><strong>Importante:</strong> revisa siempre el dominio, las unidades y si el resultado tiene sentido en el problema real.</p>
+  </div>
+</section>
+
+<!-- ===================== SESIÓN 1 ===================== -->
+<section id="sesion1" class="section">
+  <h2><i class="fa-solid fa-chart-line c-blue"></i> Sesión 1: ¿Qué está pasando?</h2>
+  <p class="meta">Tema: Funciones, comportamiento de variables, gráficas y modelación de fenómenos · 6 horas</p>
+
+  <div class="card highlight">
+    <h3><i class="fa-solid fa-bullseye"></i> Objetivo General de la Sesión</h3>
+    <p><strong>Comprender</strong> el concepto de función, el comportamiento de variables y la representación gráfica de fenómenos reales, y <strong>aplicar</strong> estos conocimientos para modelar situaciones cotidianas mediante funciones simples.</p>
+  </div>
+
+  <!-- INICIO CON ACTIVIDADES PREVIAS -->
+  <h3><i class="fa-solid fa-book-open"></i> Inicio (08:00 – 08:50) · Recordar + Comprender</h3>
+  
+  <div class="card warning">
+    <h4><i class="fa-solid fa-brain"></i> Exploración de Conocimientos Previos (Enganche)</h4>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">1. Lluvia de Ideas: “¿Qué sabes sobre variables y relaciones?” <span><i class="fa-solid fa-plus"></i></span></div>
+      <div class="accordion-content">
+        <p>Piensa en tu vida diaria: ¿Qué cosas cambian en función de otras? (Ejemplo: El saldo de tu teléfono según los días transcurridos, la temperatura según la hora del día).</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">2. Lectura Guiada + Parafraseo <span><i class="fa-solid fa-plus"></i></span></div>
+      <div class="accordion-content">
+        <p>Lee el siguiente texto: <em>"Una función es un puente matemático que nos dice exactamente qué le ocurre a un resultado cuando cambiamos una causa."</em> Explícalo con tus propias palabras a un compañero.</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">3. Mapa Conceptual Inicial <span><i class="fa-solid fa-plus"></i></span></div>
+      <div class="accordion-content">
+        <p>Relaciona visualmente las palabras clave: <strong>Variable Independiente (x)</strong> <i class="fa-solid fa-arrow-right"></i> <strong>Regla/Función f(x)</strong> <i class="fa-solid fa-arrow-right"></i> <strong>Variable Dependiente (y)</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-visual">
+      <svg viewBox="0 0 100 100" style="background:#e0f2fe; border-radius:8px;">
+        <path d="M 10 90 L 90 90 M 10 90 L 10 10" stroke="#0369a1" stroke-width="4"/>
+        <path d="M 10 80 Q 50 10 90 40" stroke="#0ea5e9" stroke-width="4" fill="none"/>
+        <circle cx="50" cy="38" r="4" fill="#f97316"/>
+      </svg>
+      <div>
+        <h4>Teoría Breve: Conceptos Fundamentales</h4>
+        <p>Una <strong>función</strong> es una relación donde a cada valor de entrada x le corresponde <strong>exactamente un</strong> valor de salida y.</p>
+        <div class="formula">\[ y = f(x) \qquad \text{ó} \qquad f: x \mapsto y \]</div>
+        <ul>
+          <li><strong>Variable independiente (x):</strong> La causa o control.</li>
+          <li><strong>Variable dependiente (y):</strong> El efecto o respuesta.</li>
+          <li><strong>Dominio:</strong> Todos los valores posibles de x.</li>
+          <li><strong>Rango:</strong> Todos los valores posibles de y.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h4>Fórmulas Básicas de Modelación</h4>
+    <table>
+      <tr><th>Tipo</th><th>Ecuación</th><th>Representación en la Vida Real</th></tr>
+      <tr><td>Lineal</td><td>\(y = mx + b\)</td><td>Crecimiento o decrecimiento constante</td></tr>
+      <tr><td>Cuadrática</td><td>\(y = ax^2 + bx + c\)</td><td>Fenómenos con punto máximo o mínimo</td></tr>
+      <tr><td>Proporcional</td><td>\(y = kx\)</td><td>Variación directa constante</td></tr>
+    </table>
+
+    <div style="margin-top:15px;">
+      <button class="btn btn-primary" onclick="openModal('ex1-s1')"><i class="fa-solid fa-list-ol"></i> Ejemplo 1 – Datos Móviles (Paso a Paso)</button>
+      <button class="btn btn-primary" onclick="openModal('ex2-s1')"><i class="fa-solid fa-list-ol"></i> Ejemplo 2 – Altura de Dron (Paso a Paso)</button>
+      <button class="btn btn-green" onclick="addXP(80, 'teoria_s1')"><i class="fa-solid fa-circle-check"></i> Completar Lectura Teórica (+80 XP)</button>
+    </div>
+  </div>
+
+  <!-- DESARROLLO 1: APLICAR CON EVALUADOR Y SIMULADOR -->
+  <h3><i class="fa-solid fa-pen-ruler c-green"></i> Desarrollo 1 – Aplicar (09:00 – 09:50)</h3>
+  <div class="card">
+    <p><span class="badge badge-blue">ABP</span> Resuelve cada planteamiento, ingresa tu respuesta numérica y presiona <strong>Evaluar</strong> para comprobar y activar el simulador explicativo.</p>
+
+    <!-- Ejercicio A1 -->
+    <div class="interactive-exercise">
+      <h4>Ejercicio A1 (ABP) – App de Delivery</h4>
+      <div class="formula-mini" data-formula-for="a1_s1"><strong>FÓRMULA</strong> \(C(k)=mk+b\)  →  \(C(k)=8k+35\)</div>
+      <p>Una app de delivery cobra $35 fijos por pedido más $8 por cada kilómetro recorrido.</p>
+      <p><strong>Pregunta:</strong> ¿Cuál es el costo total (C) en pesos para un pedido con una distancia de <strong>6.5 km</strong>?</p>
+      
+      <div class="eval-box">
+        <input type="number" id="ans_a1_s1" placeholder="Ingresa el costo en $" step="0.1">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('a1_s1', 87, 80, 'sim_a1_s1', 'help_a1_s1')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_a1_s1" class="feedback-msg"></div>
+
+      <!-- Ayuda si es incorrecta -->
+      <div id="help_a1_s1" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> ¿Necesitas ayuda? Preguntas guiadas <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Identifica el costo fijo: ¿Cuánto pagas sin recorrer ningún km? ($35)</p>
+          <p>2. Multiplica la tarifa por km ($8) por la distancia (6.5 km): \(8 \times 6.5 = 52\), es decir $52.</p>
+          <p>3. Suma ambos valores: \(52 + 35 = 87\), es decir $87. ¡Inténtalo de nuevo!</p>
+        </div>
+      </div>
+
+      <!-- Simulador interactivo activado al acertar -->
+      <div id="sim_a1_s1" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador Paso a Paso Activado:</h5>
+        <p><strong>Paso 1:</strong> Función planteada C(k) = 8k + 35</p>
+        <p><strong>Paso 2:</strong> Sustitución k = 6.5 -> C(6.5) = 8(6.5) + 35</p>
+        <p><strong>Paso 3:</strong> Operación C(6.5) = 52 + 35 = $87</p>
+        <p><strong>Interpretación:</strong> Gráfica lineal con intersección en y = 35 y pendiente m = 8.</p>
+      </div>
+    </div>
+
+    <!-- Ejercicio A2 -->
+    <div class="interactive-exercise">
+      <h4>Ejercicio A2 (ABP) – Batería del Celular</h4>
+      <div class="formula-mini" data-formula-for="a2_s1"><strong>FÓRMULA</strong> \(B(t)=B_0-rt\)  →  \(B(t)=100-4t\)</div>
+      <p>La batería del celular disminuye 4% cada hora de uso continuo partiendo del 100%.</p>
+      <p><strong>Pregunta:</strong> ¿Qué porcentaje de batería queda después de <strong>7 horas</strong> de uso?</p>
+      
+      <div class="eval-box">
+        <input type="number" id="ans_a2_s1" placeholder="Porcentaje resultante %">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('a2_s1', 72, 80, 'sim_a2_s1', 'help_a2_s1')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_a2_s1" class="feedback-msg"></div>
+
+      <div id="help_a2_s1" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. La batería inicial es 100%.</p>
+          <p>2. En 7 horas pierde 4% entonces 7 × 4 = 28.</p>
+          <p>3. Resta la pérdida a la carga inicial: 100 - 28 = 72.</p>
+        </div>
+      </div>
+
+      <div id="sim_a2_s1" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador Paso a Paso Activado:</h5>
+        <p><strong>Modelo:</strong> B(h) = 100 - 4h</p>
+        <p><strong>Cálculo:</strong> B(7) = 100 - 4(7) = 100 - 28 = 72%</p>
+        <p><strong>Comportamiento:</strong> Lineal decreciente con pendiente negativa m = -4.</p>
+      </div>
+    </div>
+
+    <!-- Ejercicio B1 -->
+    <div class="interactive-exercise">
+      <h4>Ejercicio B1 (ABP) – Temperatura del Horno</h4>
+      <div class="formula-mini" data-formula-for="b1_s1"><strong>FÓRMULA</strong> \(T(t)=T_0+rt\)  →  \(T(t)=20+15t\)</div>
+      <p>La temperatura de un horno se modela por T(t) = 20 + 15t durante los primeros minutos de precalentamiento.</p>
+      <p><strong>Pregunta:</strong> ¿Cuál es la temperatura (°C) alcanzada a los <strong>8 minutos</strong>?</p>
+      
+      <div class="eval-box">
+        <input type="number" id="ans_b1_s1" placeholder="Temperatura °C">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('b1_s1', 140, 80, 'sim_b1_s1', 'help_b1_s1')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_b1_s1" class="feedback-msg"></div>
+
+      <div id="help_b1_s1" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Sustituye t = 8 en la ecuación.</p>
+          <p>2. T(8) = 20 + 15(8) = 20 + 120 = 140 °C.</p>
+        </div>
+      </div>
+
+      <div id="sim_b1_s1" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador Paso a Paso Activado:</h5>
+        <p><strong>Cálculo:</strong> T(8) = 20 + 15(8) = 20 + 120 = 140 °C</p>
+        <p><strong>Análisis:</strong> Crece a ritmo constante de 15 °C/min desde los 20 °C iniciales.</p>
+      </div>
+    </div>
+
+    <!-- Botones de Solución Docente Protegidos -->
+    <div style="margin-top:20px;">
+      <button class="btn btn-orange" onclick="pedirPassword('sol-a1-s1')"><i class="fa-solid fa-lock"></i> Solución Completa A1 (Docente)</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-a2-s1')"><i class="fa-solid fa-lock"></i> Solución Completa A2 (Docente)</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-b1-s1')"><i class="fa-solid fa-lock"></i> Solución Completa B1 (Docente)</button>
+    </div>
+  </div>
+
+  <!-- DESARROLLO 2: ANALIZAR -->
+  <h3><i class="fa-solid fa-magnifying-glass-chart c-orange"></i> Desarrollo 2 – Analizar (10:00 – 10:50)</h3>
+  <div class="card">
+    <p>Responde las preguntas de análisis. Tus respuestas se guardan localmente en tu navegador.</p>
+    <form id="formAnalizarS1" onsubmit="guardarForm(event,'analizarS1','msgAnalizarS1', 40)">
+      <div style="margin-bottom:18px">
+        <label>1. Compara los ejemplos del Inicio (Consumo de datos vs. Altura del Dron).<br><span style="font-weight:400;color:var(--text-light)">¿Cuál crece siempre? ¿Cuál tiene un máximo? ¿Qué cambia en la estructura matemática de sus ecuaciones?</span></label>
+        <textarea name="q1" rows="3" placeholder="Escribe tu análisis comparativo..." required></textarea>
+      </div>
+      <div style="margin-bottom:18px">
+        <label>2. En el Ejercicio A1 de la App de Delivery:<br><span style="font-weight:400;color:var(--text-light)">¿Qué sucedería geométricamente con la gráfica si el costo fijo aumentara al doble ($70)?</span></label>
+        <textarea name="q2" rows="3" placeholder="Explica cómo se desplaza la gráfica..." required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar Respuestas (+40 XP)</button>
+      <p id="msgAnalizarS1" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> Respuestas guardadas y XP acreditados.</p>
+    </form>
+  </div>
+
+  <!-- DESARROLLO 3: EVALUAR -->
+  <h3><i class="fa-solid fa-scale-balanced c-orange"></i> Desarrollo 3 – Evaluar (11:05 – 12:00)</h3>
+  <div class="card">
+    <h4>Reto de Evaluación ABP: Elección del Mejor Plan de Internet</h4>
+      <div class="formula-mini" data-formula-for="reto_s1"><strong>FÓRMULA</strong> \(C_A=C_B\)  →  \(15x+200=10x+280\)</div>
+    <p>Un estudiante consume entre 5 y 12 GB extra al mes. Opciones disponibles:</p>
+    <ul>
+      <li><strong>Plan A:</strong> C_a = 15x + 200</li>
+      <li><strong>Plan B:</strong> C_b = 10x + 280</li>
+    </ul>
+    
+    <div class="interactive-exercise">
+      <p><strong>Pregunta de Indagación:</strong> ¿Para cuántos GB extra (x) ambos planes cuestan exactamente lo mismo?</p>
+      <div class="eval-box">
+        <input type="number" id="ans_reto_s1" placeholder="Cantidad de GB extra">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('reto_s1', 16, 70, 'sim_reto_s1', 'help_reto_s1')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_reto_s1" class="feedback-msg"></div>
+
+      <div id="help_reto_s1" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Iguala ambas expresiones: 15x + 200 = 10x + 280.</p>
+          <p>2. Resta 10x de ambos lados: 5x + 200 = 280.</p>
+          <p>3. Resta 200 de ambos lados: 5x = 80 -> x = 16.</p>
+        </div>
+      </div>
+
+      <div id="sim_reto_s1" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador de Comparación de Planes:</h5>
+        <p><strong>Igualación:</strong> 15x + 200 = 10x + 280 -> 5x = 80 -> x = 16\ GB.</p>
+        <p><strong>Evaluación en rango (5 a 12 GB):</strong> Con 6 GB: Plan A = $290, Plan B = $340. El <strong>Plan A es más económico</strong> en todo el rango de consumo del alumno.</p>
+      </div>
+    </div>
+    <button class="btn btn-orange" onclick="pedirPassword('sol-reto-s1')"><i class="fa-solid fa-lock"></i> Ver Justificación Docente Completa</button>
+  </div>
+
+  <!-- DESARROLLO 4: CREAR -->
+  <h3><i class="fa-solid fa-wand-magic-sparkles c-purple"></i> Cierre – Crear (12:15 – 13:15)</h3>
+  <div class="card success">
+    <h4 style="margin-top:0">Producto Final · Construye tu Modelo Matemático</h4>
+    <p>Selecciona una opción y completa la plantilla guiada para modelar un fenómeno real.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0">
+      <div class="opcion-card" onclick="seleccionarOpcion(this,1,1)"><i class="fa-solid fa-droplet opc-ico"></i><br><strong>Opción 1</strong><br><small>Consumo de Agua</small></div>
+      <div class="opcion-card" onclick="seleccionarOpcion(this,1,2)"><i class="fa-solid fa-mobile-screen-button opc-ico"></i><br><strong>Opción 2</strong><br><small>Carga de Celular</small></div>
+      <div class="opcion-card" onclick="seleccionarOpcion(this,1,3)"><i class="fa-solid fa-users opc-ico"></i><br><strong>Opción 3</strong><br><small>Crecimiento Redes</small></div>
+      <div class="opcion-card" onclick="seleccionarOpcion(this,1,4)"><i class="fa-solid fa-mug-hot opc-ico"></i><br><strong>Opción 4</strong><br><small>Enfriamiento Café</small></div>
+      <div class="opcion-card" onclick="seleccionarOpcion(this,1,5)"><i class="fa-solid fa-car opc-ico"></i><br><strong>Opción 5</strong><br><small>Viaje en Uber</small></div>
+    </div>
+    <p id="opcionSel1" style="font-weight:600;color:var(--primary)">Ninguna opción seleccionada.</p>
+
+    <form id="formCrearS1" onsubmit="guardarForm(event,'modeloS1','msgModeloS1', 150)">
+      <div style="margin-bottom:14px"><label>1. Descripción del fenómeno (3-4 líneas)</label><textarea name="descripcion" rows="2" required></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div><label>2a. Variable Indep. (x)</label><input type="text" name="varIndep" placeholder="Ej: km, horas..." required></div>
+        <div><label>2b. Variable Dep. (y)</label><input type="text" name="varDep" placeholder="Ej: pesos, %..." required></div>
+      </div>
+      <div style="margin-bottom:14px"><label>3. Función Matemática Creada</label><input type="text" name="funcion" placeholder="Ej: y = 20x + 50" required></div>
+      <div style="margin-bottom:14px"><label>4. Dos cálculos demostrativos con valores reales</label><textarea name="calculos" rows="2" required></textarea></div>
+      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar Modelo y Obtener +150 XP</button>
+      <p id="msgModeloS1" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> ¡Modelo guardado con éxito (+150 XP)!</p>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== SESIÓN 2 ===================== -->
+<section id="sesion2" class="section">
+  <style>
+    #sesion2 .video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px}
+    #sesion2 .video-card{border:1px solid var(--border);border-radius:var(--radius);padding:12px;background:var(--card)}
+    #sesion2 .video-card h5{font-size:.95rem;margin-bottom:4px}
+    #sesion2 .video-card p{font-size:.85rem;color:var(--text-light);margin-bottom:6px}
+    #sesion2 .btn-video{background:var(--primary-dark);color:#fff;text-decoration:none}
+    #sesion2 .accordion-header:focus,#sesion2 .btn:focus,#sesion2 input:focus,#sesion2 textarea:focus,#sesion2 select:focus,#sesion2 a:focus{outline:3px solid var(--accent);outline-offset:2px}
+    #sesion2 .rubrica th,#sesion2 .rubrica td{font-size:.82rem}
+    #sesion2 label{font-weight:600;display:block;margin:8px 0 4px}
+  </style>
+  <h2><i class="fa-solid fa-gauge-high c-orange"></i> Sesión 2: ¿Qué tan rápido está cambiando?</h2>
+  <p class="meta">Tema: La Derivada como Razón de Cambio · Regla de la potencia · 6 horas · Reto: decidir un límite de velocidad con matemáticas</p>
+
+  <div class="card highlight">
+    <h3>Objetivo General de la Sesión</h3>
+    <p><strong>Comprender</strong> la derivada como razón de cambio instantánea, <strong>interpretar</strong> su significado numérico y gráfico, y <strong>aplicarla</strong> en modelos de velocidad, costos marginales y tasas de crecimiento.</p>
+    <p><strong>Al terminar podrás:</strong></p>
+    <ol>
+      <li>Distinguir con un ejemplo real la razón de cambio promedio de la instantánea.</li>
+      <li>Derivar términos con la regla de la potencia, incluidos polinomios, y evaluar la derivada en un punto.</li>
+      <li>Interpretar el resultado con sus unidades y usarlo para justificar una decisión.</li>
+    </ol>
+    <p><strong>Situación real del día:</strong> una autoridad debe decidir el límite de velocidad de un tramo carretero. Usarás derivadas para saber cuánto crece el riesgo de frenado cuando la velocidad aumenta.</p>
+  </div>
+
+  <h3><i class="fa-solid fa-book-open"></i> Inicio (08:00 – 08:50) · Recordar + Comprender</h3>
+
+  <div class="card warning">
+    <h3><i class="fa-solid fa-function"></i> ¿Qué es una derivada y cómo se maneja?</h3>
+    <p>La <strong>derivada</strong> indica qué tan rápido cambia una función en un instante. Geométricamente representa la pendiente de la recta tangente.</p>
+    <p><strong>¿Cómo se maneja?</strong></p>
+    <ol>
+      <li>Identifica la función que representa el fenómeno.</li>
+      <li>Deriva término por término usando las reglas correspondientes.</li>
+      <li>Sustituye el valor de la variable si se pide la tasa en un punto.</li>
+      <li>Interpreta el resultado con sus unidades: positivo significa que aumenta y negativo que disminuye.</li>
+    </ol>
+    <div class="formula">\[f'(x)=\lim_{h\to0}\frac{f(x+h)-f(x)}{h}\]</div>
+    <p><strong>Regla básica:</strong> si \(f(x)=x^n\), entonces \(f'(x)=nx^{n-1}\).</p>
+  </div>
+
+  <div class="card warning">
+    <h4><i class="fa-solid fa-brain"></i> Exploración de Conocimientos Previos (Enganche)</h4>
+    <p>Abre cada pregunta, piensa tu respuesta y después lee el cierre.</p>
+<div class="accordion"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}">1. Velocidad media vs. velocidad del velocímetro <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p>Si viajas de Cancún a Playa del Carmen (68 km) en 1 hora, tu velocidad promedio fue 68 km/h. Pero, ¿significa que durante todo el trayecto marcaste exactamente 68 km/h en el tablero?</p><p><strong>Cierre:</strong> no. 68 km/h es la razón de cambio <em>promedio</em> de todo el viaje. El velocímetro muestra la velocidad en un instante, que es la <em>derivada</em> de la posición. Pudiste ir a 50 km/h en un tramo y a 100 km/h en otro.</p></div></div>
+<div class="accordion"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}">2. Lectura guiada y parafraseo <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p><em>"La razón de cambio promedio mide lo que pasó en un intervalo; la derivada mide lo que está pasando exactamente en este instante."</em></p><p>Explícalo con tus palabras a un compañero y da un ejemplo de tu vida diaria (por ejemplo, tu recorrido a la escuela).</p></div></div>
+<div class="accordion"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}">3. Predicción para el reto <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p>Si el límite de velocidad sube de 80 a 100 km/h (25 % más), ¿la distancia que necesita un auto para frenar sube también 25 %, o sube más? Escribe tu predicción en tu cuaderno. La comprobarás en el caso resuelto.</p></div></div>
+  </div>
+
+  <div class="card">
+    <h3><i class="fa-solid fa-circle-play"></i> Ruta visual: elige cómo quieres aprender</h3>
+    <p>Puedes empezar por video, por lectura o por ambos. Activa los subtítulos de YouTube (CC) y, si lo necesitas, la traducción automática al español.</p>
+    <div class="video-grid">
+      <div class="video-card"><h5><i class="fa-brands fa-youtube"></i> La paradoja de la derivada (3Blue1Brown, cap. 2)</h5><p>Qué significa “cambio en un instante”. Dura unos 17 min. Mientras ves: ¿por qué un velocímetro mide en realidad un intervalo muy pequeño?</p><a class="btn btn-video" href="https://www.youtube.com/watch?v=9vKqVkMQHKk" target="_blank" rel="noopener noreferrer">Ver en YouTube</a></div>
+      <div class="video-card"><h5><i class="fa-brands fa-youtube"></i> Fórmulas de derivadas con geometría (3Blue1Brown, cap. 3)</h5><p>Por qué la regla de la potencia funciona, con imágenes. Mientras ves: ¿qué representa el exponente que “baja”?</p><a class="btn btn-video" href="https://www.youtube.com/watch?v=S0_qX4VJhMQ" target="_blank" rel="noopener noreferrer">Ver en YouTube</a></div>
+      <div class="video-card"><h5><i class="fa-brands fa-youtube"></i> Derivada de una potencia | Reglas de derivación (en español)</h5><p>Ejemplos con exponentes positivos y negativos. Mientras ves: copia un ejemplo y resuélvelo sin mirar.</p><a class="btn btn-video" href="https://www.youtube.com/watch?v=-PjdQi5Foio" target="_blank" rel="noopener noreferrer">Ver en YouTube</a></div>
+      <div class="video-card"><h5><i class="fa-solid fa-magnifying-glass"></i> Más videos en español</h5><p>Busca ejemplos de la regla de la potencia aplicados a problemas reales.</p><a class="btn btn-video" href="https://www.youtube.com/results?search_query=regla+de+la+potencia+derivadas+problemas+de+aplicacion" target="_blank" rel="noopener noreferrer">Buscar en YouTube</a></div>
+      <div class="video-card"><h5><i class="fa-solid fa-file-lines"></i> Versión escrita con animaciones</h5><p>Si prefieres leer: la derivada y la regla de la potencia explicadas paso a paso (en inglés).</p><a class="btn btn-video" href="https://3blue1brown.com/lessons/derivatives" target="_blank" rel="noopener noreferrer">Derivada</a> <a class="btn btn-video" href="https://www.3blue1brown.com/lessons/derivatives-power-rule/" target="_blank" rel="noopener noreferrer">Regla de la potencia</a></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-visual">
+      <svg viewBox="0 0 220 140" role="img" aria-labelledby="s2svgt s2svgd" style="background:#ffedd5; border-radius:8px;">
+        <title id="s2svgt">Recta secante y recta tangente</title>
+        <desc id="s2svgd">Una curva que sube cada vez más rápido. La recta secante une los puntos a y b. La recta tangente toca la curva solo en el punto P.</desc>
+        <path d="M 10 130 L 210 130 M 10 130 L 10 10" stroke="#c2410c" stroke-width="2"/>
+        <path d="M 20 120 Q 100 120 190 20" stroke="#c2410c" stroke-width="3" fill="none"/>
+        <line x1="45" y1="126" x2="180" y2="39" stroke="#047857" stroke-width="2.5"/>
+        <line x1="62" y1="119" x2="142" y2="72" stroke="#0369a1" stroke-width="2.5"/>
+        <circle cx="60.6" cy="113.8" r="3" fill="#047857"/><circle cx="163.2" cy="47.8" r="3" fill="#047857"/><circle cx="102.5" cy="95" r="3.5" fill="#0369a1"/>
+        <text x="46" y="108" font-size="9" fill="#064e3b">a</text><text x="166" y="44" font-size="9" fill="#064e3b">b</text><text x="106" y="106" font-size="9" fill="#0c4a6e">P</text>
+        <text x="120" y="22" font-size="8" fill="#064e3b">secante: promedio</text><text x="128" y="84" font-size="8" fill="#0c4a6e">tangente: instantánea</text>
+        <text x="190" y="140" font-size="8" fill="#7c2d12">t</text>
+      </svg>
+      <div>
+        <h4>Conceptos Fundamentales de Cambio</h4>
+        <p><strong>Razón de cambio promedio:</strong> pendiente de la recta secante entre dos puntos \(a\) y \(b\).</p>
+        <div class="formula">\[ \text{Razón de cambio promedio} = \frac{f(b)-f(a)}{b-a} \]</div>
+        <p><strong>Razón de cambio instantánea (derivada):</strong> pendiente de la recta tangente, obtenida mediante el límite cuando \(h\) tiende a cero.</p>
+        <div class="formula">\[ f'(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}{h} \]</div>
+      </div>
+    </div>
+    <div style="margin-top:15px;">
+      <button class="btn btn-green" onclick="addXP(80, 'teoria_s2')"><i class="fa-solid fa-circle-check"></i> Completar Lectura Teórica (+80 XP)</button>
+    </div>
+  </div>
+
+  <div class="card highlight">
+    <h3><i class="fa-solid fa-superscript"></i> Potencias: definición y reglas para derivar</h3>
+    <p>Una <strong>potencia</strong> es una expresión de la forma \(x^n\), donde \(x\) es la base y \(n\) es el exponente. La <strong>regla de la potencia</strong> permite derivarla directamente:</p>
+    <div class="formula">\[\frac{d}{dx}(x^n)=nx^{n-1}\]</div>
+    <p>Al derivar una potencia, <strong>multiplica por el exponente y después resta 1 al exponente</strong>.</p>
+    <p><strong>Recuerda las leyes de los exponentes:</strong></p>
+    <ul>
+      <li><strong>Producto de potencias con la misma base:</strong> \(x^m x^n=x^{m+n}\).</li>
+      <li><strong>Cociente de potencias con la misma base:</strong> \(\frac{x^m}{x^n}=x^{m-n}\), con \(x\ne0\).</li>
+    </ul>
+    <p><strong>Reglas que la acompañan</strong> (las necesitas para funciones reales, que casi siempre tienen varios términos):</p>
+    <table><thead><tr><th>Regla</th><th>Fórmula</th><th>Ejemplo</th></tr></thead><tbody>
+      <tr><td>Constante</td><td>\(\frac{d}{dx}(c)=0\)</td><td>\(\frac{d}{dx}(7)=0\)</td></tr>
+      <tr><td>Constante por función</td><td>\(\frac{d}{dx}[c f(x)]=c f'(x)\)</td><td>\(\frac{d}{dx}(3x^4)=3(4x^3)=12x^3\)</td></tr>
+      <tr><td>Suma o resta</td><td>\((f\pm g)'=f'\pm g'\)</td><td>\(\frac{d}{dx}(x^2+5x)=2x+5\)</td></tr>
+      <tr><td>Raíces y fracciones</td><td>Reescribe como potencia</td><td>\(\sqrt{x}=x^{1/2}\Rightarrow\frac{1}{2}x^{-1/2}\); \(\frac{1}{x^2}=x^{-2}\Rightarrow-2x^{-3}\)</td></tr>
+    </tbody></table>
+    <p><strong>Segunda derivada:</strong> es la derivada de la derivada y se escribe \(f''(x)\). La usarás en la Sesión 3 para saber si un punto es máximo o mínimo.</p>
+    <p><strong>Errores comunes:</strong> (1) olvidar bajar el exponente; (2) restar 1 al coeficiente en lugar de al exponente; (3) derivar una constante como si tuviera exponente (su derivada es 0).</p>
+  </div>
+
+  <div class="card">
+    <h3><i class="fa-solid fa-list-ol"></i> Caso resuelto: ¿80 o 100 km/h?</h3>
+    <div class="interactive-exercise">
+      <p><strong>Situación:</strong> para un tramo carretero (como el de Cancún a Playa del Carmen) se usa un modelo simplificado de distancia de frenado \(d(v)=0.006v^2\), con \(d\) en metros y \(v\) en km/h. Se debate entre un límite de 80 km/h y uno de 100 km/h.</p>
+      <p><strong>Paso 1 · Evaluar la función.</strong> \(d(80)=0.006(80)^2=0.006(6400)=38.4\text{ m}\) y \(d(100)=0.006(100)^2=0.006(10000)=60\text{ m}\).</p>
+      <p><strong>Paso 2 · Razón de cambio promedio.</strong> \(\frac{d(100)-d(80)}{100-80}=\frac{60-38.4}{20}=1.08\) m por cada km/h adicional.</p>
+      <p><strong>Paso 3 · Derivar con la regla de la potencia.</strong> \(d(v)=0.006v^2\), entonces \(d'(v)=0.006(2)v^{2-1}=0.012v\).</p>
+      <p><strong>Paso 4 · Razón instantánea en cada límite.</strong> \(d'(80)=0.012(80)=0.96\) y \(d'(100)=0.012(100)=1.2\) m por km/h.</p>
+      <p><strong>Paso 5 · Segunda derivada.</strong> \(d''(v)=0.012>0\): la tasa de frenado crece de forma constante al subir la velocidad.</p>
+      <p><strong>Paso 6 · Interpretar y decidir.</strong> Pasar de 80 a 100 km/h añade \(60-38.4=21.6\) m de frenado, es decir, \(\frac{21.6}{38.4}=0.5625\), un 56 % más. Por eso tu predicción de 25 % se queda corta: el frenado crece más rápido que la velocidad. A 100 km/h cada km/h extra cuesta 1.2 m, y a 80 km/h solo 0.96 m. <strong>Recomendación:</strong> si hay cruces, entradas o peatones, conviene 80 km/h. Limitación: el modelo no incluye tiempo de reacción ni estado del pavimento.</p>
+    </div>
+    <div style="margin-top:15px;">
+      <button class="btn btn-orange" onclick="pedirPassword('sol-pcaso-s2')"><i class="fa-solid fa-lock"></i> Guía Docente: Caso resuelto</button>
+    </div>
+  </div>
+
+  <div class="card success">
+    <h3><i class="fa-solid fa-trophy"></i> Práctica con problemas reales · 50 XP cada respuesta</h3>
+    <p>Cada pregunta tiene <strong>5 oportunidades</strong> y cada respuesta correcta otorga XP una sola vez. Si agotas las oportunidades, verás la solución completa para aprender de ella.</p>
+    <h4>Problema A · Cisterna de un hotel</h4>
+    <p>Un hotel en Playa del Carmen amplía una cisterna con forma de cubo de lado \(x\) metros. Su capacidad es \(V(x)=x^3\) en m³. Quiere saber qué tan sensible es la capacidad a un pequeño cambio del lado.</p>
+<div class="interactive-exercise"><h4>A.1 · Tasa instantánea</h4><div class="formula-mini"><strong>RECUERDA</strong> \(\frac{d}{dx}(x^n)=nx^{n-1}\)</div><p>Calcula \(V'(4)\): ¿cuántos m³ por metro crece la capacidad cuando el lado mide 4 m?</p><label for="ans_pot_a1_s2" style="display:block;font-weight:600;margin:6px 0 4px">Tu respuesta (m³ por metro)</label><div class="eval-box"><input type="number" step="any" id="ans_pot_a1_s2" placeholder="Ej: 12"><button class="btn btn-primary" onclick="evaluarEjercicio('pot_a1_s2', 48, 50, 'sim_pot_a1_s2', 'help_pot_a1_s2')">Evaluar Respuesta</button></div><div id="msg_pot_a1_s2" class="feedback-msg" aria-live="polite"></div><div id="help_pot_a1_s2" class="accordion" style="display:none; margin-top:10px;"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}"><i class="fa-solid fa-lightbulb"></i> Pistas <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p>Las pistas aparecen si necesitas ayuda.</p></div></div><div id="sim_pot_a1_s2" class="simulator-box"><h5><i class="fa-solid fa-circle-check"></i> Solución paso a paso (+50 XP si la lograste)</h5><p>\(V(x)=x^3\Rightarrow V'(x)=3x^{3-1}=3x^2\)</p><p>\(V'(4)=3(4)^2=3(16)=48\)</p><p><strong>Interpretación:</strong> con el lado en 4 m, la capacidad crece a razón de 48 m³ por cada metro de lado.</p></div></div><div class="interactive-exercise"><h4>A.2 · Cambio real vs. tasa instantánea</h4><p>Si el lado pasa de 4 m a 5 m, ¿cuántos m³ aumenta realmente la capacidad?</p><label for="ans_pot_a2_s2" style="display:block;font-weight:600;margin:6px 0 4px">Tu respuesta (m³)</label><div class="eval-box"><input type="number" step="any" id="ans_pot_a2_s2" placeholder="Ej: 40"><button class="btn btn-primary" onclick="evaluarEjercicio('pot_a2_s2', 61, 50, 'sim_pot_a2_s2', 'help_pot_a2_s2')">Evaluar Respuesta</button></div><div id="msg_pot_a2_s2" class="feedback-msg" aria-live="polite"></div><div id="help_pot_a2_s2" class="accordion" style="display:none; margin-top:10px;"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}"><i class="fa-solid fa-lightbulb"></i> Pistas <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p>Las pistas aparecen si necesitas ayuda.</p></div></div><div id="sim_pot_a2_s2" class="simulator-box"><h5><i class="fa-solid fa-circle-check"></i> Solución paso a paso (+50 XP si la lograste)</h5><p>\(V(5)=5^3=125\) y \(V(4)=4^3=64\), entonces \(125-64=61\) m³.</p><p><strong>Comparación:</strong> la tasa en \(x=4\) era 48 y en \(x=5\) es \(V'(5)=3(25)=75\). El aumento real, 61, queda entre ambas porque la tasa crece mientras el lado aumenta.</p></div></div>
+    <h4 style="margin-top:18px">Problema B · Costo marginal de una panadería</h4>
+    <p>El costo diario de producir \(x\) paquetes es \(C(x)=0.02x^2+8x+120\) pesos. Hoy produce 50 paquetes.</p>
+<div class="interactive-exercise"><h4>B.1 · Costo marginal</h4><div class="formula-mini"><strong>RECUERDA</strong> \(\frac{d}{dx}(x^n)=nx^{n-1}\), \((f\pm g)'=f'\pm g'\)</div><p>Calcula \(C'(50)\): el costo marginal en pesos por paquete.</p><label for="ans_pot_b1_s2" style="display:block;font-weight:600;margin:6px 0 4px">Tu respuesta (pesos por paquete)</label><div class="eval-box"><input type="number" step="any" id="ans_pot_b1_s2" placeholder="Ej: 5"><button class="btn btn-primary" onclick="evaluarEjercicio('pot_b1_s2', 10, 50, 'sim_pot_b1_s2', 'help_pot_b1_s2')">Evaluar Respuesta</button></div><div id="msg_pot_b1_s2" class="feedback-msg" aria-live="polite"></div><div id="help_pot_b1_s2" class="accordion" style="display:none; margin-top:10px;"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}"><i class="fa-solid fa-lightbulb"></i> Pistas <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p>Las pistas aparecen si necesitas ayuda.</p></div></div><div id="sim_pot_b1_s2" class="simulator-box"><h5><i class="fa-solid fa-circle-check"></i> Solución paso a paso (+50 XP si la lograste)</h5><p>Deriva cada término: \(0.02x^2\to0.02(2x)=0.04x\); \(8x\to8\); \(120\to0\).</p><p>\(C'(x)=0.04x+8\)</p><p>\(C'(50)=0.04(50)+8=2+8=10\) pesos por paquete.</p></div></div><div class="interactive-exercise"><h4>B.2 · Decidir si conviene</h4><p>Cada paquete se vende a 12 pesos. Con el costo marginal de B.1, ¿cuál es la ganancia aproximada del paquete número 51 (en pesos)?</p><label for="ans_pot_b2_s2" style="display:block;font-weight:600;margin:6px 0 4px">Tu respuesta (pesos)</label><div class="eval-box"><input type="number" step="any" id="ans_pot_b2_s2" placeholder="Ej: 3"><button class="btn btn-primary" onclick="evaluarEjercicio('pot_b2_s2', 2, 50, 'sim_pot_b2_s2', 'help_pot_b2_s2')">Evaluar Respuesta</button></div><div id="msg_pot_b2_s2" class="feedback-msg" aria-live="polite"></div><div id="help_pot_b2_s2" class="accordion" style="display:none; margin-top:10px;"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}"><i class="fa-solid fa-lightbulb"></i> Pistas <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p>Las pistas aparecen si necesitas ayuda.</p></div></div><div id="sim_pot_b2_s2" class="simulator-box"><h5><i class="fa-solid fa-circle-check"></i> Solución paso a paso (+50 XP si la lograste)</h5><p>Ganancia marginal \(\approx12-C'(50)=12-10=2\) pesos.</p><p><strong>Verificación:</strong> \(C(51)=0.02(2601)+8(51)+120=580.02\) y \(C(50)=570\), así que el paquete 51 cuesta realmente 10.02 pesos. La aproximación es muy buena.</p><p><strong>Decisión:</strong> mientras el costo marginal sea menor que 12 pesos, producir un paquete más deja ganancia.</p></div></div>
+    <div style="margin-top:15px;">
+      <button class="btn btn-orange" onclick="pedirPassword('sol-pa-s2')"><i class="fa-solid fa-lock"></i> Solución Docente Problema A</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-pb-s2')"><i class="fa-solid fa-lock"></i> Solución Docente Problema B</button>
+    </div>
+  </div>
+
+  <h3><i class="fa-solid fa-magnifying-glass-chart c-orange"></i> Desarrollo 2 – Analizar (10:00 – 10:50)</h3>
+  <div class="card">
+    <h4>Problema C · El ciclista: promedio vs. instantánea</h4>
+    <p>La distancia recorrida por un ciclista es \(s(t)=3t^2+2t\) (metros, \(t\) en segundos). Su velocidad promedio entre \(t=1\) s y \(t=4\) s es \(\frac{s(4)-s(1)}{4-1}=\frac{56-5}{3}=17\) m/s.</p>
+<div class="interactive-exercise"><h4>C.1 · Velocidad instantánea</h4><p>Calcula la velocidad instantánea en \(t=2\) s, es decir \(s'(2)\).</p><label for="ans_an_c1_s2" style="display:block;font-weight:600;margin:6px 0 4px">Tu respuesta (m/s)</label><div class="eval-box"><input type="number" step="any" id="ans_an_c1_s2" placeholder="Ej: 10"><button class="btn btn-primary" onclick="evaluarEjercicio('an_c1_s2', 14, 80, 'sim_an_c1_s2', 'help_an_c1_s2')">Evaluar Respuesta</button></div><div id="msg_an_c1_s2" class="feedback-msg" aria-live="polite"></div><div id="help_an_c1_s2" class="accordion" style="display:none; margin-top:10px;"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}"><i class="fa-solid fa-lightbulb"></i> Pistas <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p>Las pistas aparecen si necesitas ayuda.</p></div></div><div id="sim_an_c1_s2" class="simulator-box"><h5><i class="fa-solid fa-circle-check"></i> Solución paso a paso (+80 XP si la lograste)</h5><p>\(s(t)=3t^2+2t\Rightarrow s'(t)=3(2t)+2=6t+2\)</p><p>\(s'(2)=6(2)+2=14\) m/s.</p></div></div><div class="interactive-exercise"><h4>C.2 · ¿Cuándo coinciden?</h4><p>¿En qué instante \(t\) la velocidad instantánea es igual a la velocidad promedio de 17 m/s?</p><label for="ans_an_c2_s2" style="display:block;font-weight:600;margin:6px 0 4px">Tu respuesta (segundos)</label><div class="eval-box"><input type="number" step="any" id="ans_an_c2_s2" placeholder="Ej: 3"><button class="btn btn-primary" onclick="evaluarEjercicio('an_c2_s2', 2.5, 80, 'sim_an_c2_s2', 'help_an_c2_s2')">Evaluar Respuesta</button></div><div id="msg_an_c2_s2" class="feedback-msg" aria-live="polite"></div><div id="help_an_c2_s2" class="accordion" style="display:none; margin-top:10px;"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}"><i class="fa-solid fa-lightbulb"></i> Pistas <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p>Las pistas aparecen si necesitas ayuda.</p></div></div><div id="sim_an_c2_s2" class="simulator-box"><h5><i class="fa-solid fa-circle-check"></i> Solución paso a paso (+80 XP si la lograste)</h5><p>Plantea \(s'(t)=17\): \(6t+2=17\), entonces \(6t=15\) y \(t=2.5\) s.</p><p><strong>Observación:</strong> 2.5 s es el punto medio de [1, 4]. En una parábola, la velocidad promedio de un intervalo coincide con la instantánea en su punto medio.</p></div></div>
+    <form id="formAnalizarS2" onsubmit="guardarForm(event,'analizarS2','msgAnalizarS2', 40)" style="margin-top:14px">
+      <label for="an_q1">1. Con tus palabras: ¿en qué se diferencian la razón de cambio promedio y la instantánea? Apóyate en C.1 y C.2.</label>
+      <textarea id="an_q1" name="q1" rows="3" minlength="40" required></textarea>
+      <label for="an_q2">2. En el Problema A, ¿por qué el aumento real (61 m³) no es igual a la tasa instantánea (48 m³ por metro)?</label>
+      <textarea id="an_q2" name="q2" rows="3" minlength="40" required></textarea>
+      <button type="submit" class="btn btn-primary" style="margin-top:10px"><i class="fa-solid fa-floppy-disk"></i> Guardar (+40 XP)</button>
+      <p id="msgAnalizarS2" aria-live="polite" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> Guardado.</p>
+    </form>
+    <div style="margin-top:15px;">
+      <button class="btn btn-orange" onclick="pedirPassword('sol-pc-s2')"><i class="fa-solid fa-lock"></i> Solución Docente Problema C</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-panalisis-s2')"><i class="fa-solid fa-lock"></i> Solución Docente Preguntas de análisis</button>
+    </div>
+  </div>
+
+  <h3><i class="fa-solid fa-scale-balanced c-orange"></i> Desarrollo 3 – Evaluar (11:05 – 12:00)</h3>
+  <div class="card warning">
+    <h4>Reto: límite de velocidad frente a una escuela</h4>
+    <p>Una escuela está junto a una vialidad. El municipio decide entre 40 y 60 km/h y usa el modelo \(d(v)=0.006v^2\) (metros, km/h) del caso resuelto.</p>
+<div class="interactive-exercise"><h4>Reto 1 · Metros extra de frenado</h4><p>¿Cuántos metros más de frenado se necesitan al subir el límite de 40 a 60 km/h?</p><label for="ans_ev1_s2" style="display:block;font-weight:600;margin:6px 0 4px">Tu respuesta (m)</label><div class="eval-box"><input type="number" step="any" id="ans_ev1_s2" placeholder="Ej: 5"><button class="btn btn-primary" onclick="evaluarEjercicio('ev1_s2', 12, 80, 'sim_ev1_s2', 'help_ev1_s2')">Evaluar Respuesta</button></div><div id="msg_ev1_s2" class="feedback-msg" aria-live="polite"></div><div id="help_ev1_s2" class="accordion" style="display:none; margin-top:10px;"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}"><i class="fa-solid fa-lightbulb"></i> Pistas <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p>Las pistas aparecen si necesitas ayuda.</p></div></div><div id="sim_ev1_s2" class="simulator-box"><h5><i class="fa-solid fa-circle-check"></i> Solución paso a paso (+80 XP si la lograste)</h5><p>\(d(40)=0.006(1600)=9.6\) m y \(d(60)=0.006(3600)=21.6\) m.</p><p>Diferencia: \(21.6-9.6=12\) m, más del doble de la distancia de 40 km/h.</p></div></div><div class="interactive-exercise"><h4>Reto 2 · Riesgo creciente</h4><div class="formula-mini"><strong>RECUERDA</strong> \(\frac{d}{dx}(x^n)=nx^{n-1}\)</div><p>Calcula \(d'(60)\): ¿cuántos metros extra de frenado añade cada km/h a 60 km/h?</p><label for="ans_ev2_s2" style="display:block;font-weight:600;margin:6px 0 4px">Tu respuesta (m por km/h)</label><div class="eval-box"><input type="number" step="any" id="ans_ev2_s2" placeholder="Ej: 0.5"><button class="btn btn-primary" onclick="evaluarEjercicio('ev2_s2', 0.72, 80, 'sim_ev2_s2', 'help_ev2_s2')">Evaluar Respuesta</button></div><div id="msg_ev2_s2" class="feedback-msg" aria-live="polite"></div><div id="help_ev2_s2" class="accordion" style="display:none; margin-top:10px;"><div class="accordion-header" onclick="toggleAccordion(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this)}"><i class="fa-solid fa-lightbulb"></i> Pistas <span><i class="fa-solid fa-plus"></i></span></div><div class="accordion-content"><p>Las pistas aparecen si necesitas ayuda.</p></div></div><div id="sim_ev2_s2" class="simulator-box"><h5><i class="fa-solid fa-circle-check"></i> Solución paso a paso (+80 XP si la lograste)</h5><p>\(d'(v)=0.012v\), entonces \(d'(60)=0.012(60)=0.72\) m por km/h.</p><p>Para comparar: \(d'(40)=0.48\). A 60 km/h cada km/h extra pesa 50 % más que a 40 km/h.</p></div></div>
+    <form id="formEvaluarS2" onsubmit="guardarForm(event,'evaluarS2','msgEvaluarS2', 40)" style="margin-top:14px">
+      <label for="ev_just">Redacta tu recomendación al municipio (40 o 60 km/h). Debe incluir: (a) un dato calculated, (b) la derivada interpretada con unidades, (c) una limitación del modelo y (d) tu decisión.</label>
+      <textarea id="ev_just" name="recomendacion" rows="5" minlength="80" required></textarea>
+      <button type="submit" class="btn btn-primary" style="margin-top:10px"><i class="fa-solid fa-floppy-disk"></i> Guardar recomendación (+40 XP)</button>
+      <p id="msgEvaluarS2" aria-live="polite" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> Guardado.</p>
+    </form>
+    <table class="rubrica" style="margin-top:12px"><thead><tr><th>Criterio</th><th>Logrado</th><th>En proceso</th><th>Por mejorar</th></tr></thead><tbody>
+      <tr><td>Cálculo con la regla de la potencia</td><td>Derivada y valores correctos</td><td>Un error menor</td><td>No deriva o no sustituye</td></tr>
+      <tr><td>Interpretación con unidades</td><td>Explica qué significa la tasa</td><td>Da el número sin significado</td><td>Sin unidades ni sentido</td></tr>
+      <tr><td>Justificación de la decisión</td><td>Decisión apoyada en datos y límites del modelo</td><td>Decisión con un solo argumento</td><td>Decisión sin argumento</td></tr>
+    </tbody></table>
+    <div style="margin-top:15px;">
+      <button class="btn btn-orange" onclick="pedirPassword('sol-pe-s2')"><i class="fa-solid fa-lock"></i> Solución Docente del Reto</button>
+    </div>
+  </div>
+
+  <h3><i class="fa-solid fa-wand-magic-sparkles c-purple"></i> Cierre – Crear (12:15 – 13:15)</h3>
+  <div class="card success">
+    <h4>Crea tu Modelo de Razón de Cambio</h4>
+    <p>Elige un fenómeno de tu vida o de tu comunidad que se pueda modelar con una potencia, por ejemplo: área de una pizza \(A(r)=\pi r^2\), volumen de un tanque \(V(x)=x^3\), caída libre \(s(t)=4.9t^2\), o consumo de energía. Usa la rúbrica del reto como guía.</p>
+    <form id="formCrearS2" onsubmit="guardarForm(event,'modeloS2','msgModeloS2', 150)">
+      <label for="cr_fen">1. Fenómeno real seleccionado</label>
+      <input type="text" id="cr_fen" name="fenomeno" placeholder="Ej: Crecimiento del área de una pizza al aumentar el radio" required>
+      <label for="cr_fun">2. Función planteada (con una potencia)</label>
+      <input type="text" id="cr_fun" name="funcion" placeholder="Ej: A(r) = 3.14 r^2" required>
+      <label for="cr_der">3. Tu derivada y su interpretación con unidades</label>
+      <textarea id="cr_der" name="derivada" rows="3" minlength="60" required></textarea>
+      <label for="cr_dec">4. Decisión que ayudaría a tomar tu modelo</label>
+      <textarea id="cr_dec" name="decision" rows="3" minlength="40" required></textarea>
+      <label for="cr_for">5. ¿En qué formato entregarás tu evidencia a tu docente?</label>
+      <select id="cr_for" name="formato"><option>Texto escrito</option><option>Foto de mi procedimiento a mano</option><option>Esquema o mapa visual</option><option>Audio o video breve</option></select>
+      <button type="submit" class="btn btn-primary" style="margin-top:10px"><i class="fa-solid fa-floppy-disk"></i> Guardar Modelo y Ganar +150 XP</button>
+      <p id="msgModeloS2" aria-live="polite" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> ¡Modelo Guardado (+150 XP)!</p>
+    </form>
+    <div style="margin-top:15px;">
+      <button class="btn btn-orange" onclick="pedirPassword('sol-pcrear-s2')"><i class="fa-solid fa-lock"></i> Guía Docente: Crear y Ticket de salida</button>
+    </div>
+  </div>
+
+  <div class="card purple">
+    <h4><i class="fa-solid fa-flag-checkered"></i> Ticket de salida (13:25 – 14:00) · Metacognición</h4>
+    <form id="formTicketS2" onsubmit="guardarForm(event,'ticketS2','msgTicketS2', 20)">
+      <label for="tk_1">¿Qué tan seguro te sientes explicando la diferencia entre promedio e instantánea?</label>
+      <select id="tk_1" name="seguridad_concepto"><option>Muy seguro</option><option>Algo seguro</option><option>Necesito repasar</option></select>
+      <label for="tk_2">¿Qué tan seguro te sientes derivando con la regla de la potencia?</label>
+      <select id="tk_2" name="seguridad_regla"><option>Muy seguro</option><option>Algo seguro</option><option>Necesito repasar</option></select>
+      <label for="tk_3">Una duda que aún tengo (y qué video o ejemplo de esta guía repetiré)</label>
+      <textarea id="tk_3" name="duda" rows="2" minlength="15" required></textarea>
+      <button type="submit" class="btn btn-primary" style="margin-top:10px"><i class="fa-solid fa-floppy-disk"></i> Guardar ticket (+20 XP)</button>
+      <p id="msgTicketS2" aria-live="polite" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> Guardado.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== SESIÓN 3 ===================== -->
+<section id="sesion3" class="section">
+  <h2><i class="fa-solid fa-sliders c-green"></i> Sesión 3: ¿Cuál es la mejor decisión?</h2>
+  <p class="meta">Tema: Máximos, Mínimos y Optimización · 6 horas</p>
+
+  <div class="card highlight">
+    <h3>Objetivo General de la Sesión</h3>
+    <p><strong>Identificar</strong> puntos críticos mediante la primera derivada, <strong>verificar</strong> máximos y mínimos con el criterio de la segunda derivada y <strong>resolver</strong> problemas reales de optimización para tomar la decisión más conveniente.</p>
+  </div>
+
+  <!-- INICIO CON ACTIVIDADES PREVIAS -->
+  <h3><i class="fa-solid fa-book-open"></i> Inicio (08:00 – 08:50) · Recordar + Comprender</h3>
+  
+  <div class="card warning">
+    <h4><i class="fa-solid fa-brain"></i> Exploración de Conocimientos Previos (Enganche)</h4>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">1. Lluvia de Ideas: “¿Qué significa optimizar?” <span><i class="fa-solid fa-plus"></i></span></div>
+      <div class="accordion-content">
+        <p>Optimizar significa lograr lo <em>máximo posible</em> de algo deseable (ganancias, área, eficiencia) o lo <em>mínimo posible</em> de algo indeseable (costos, tiempo, desperdicio).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card highlight">
+    <h4><i class="fa-solid fa-book-bookmark"></i> Marco Teórico: Concepto de Optimización</h4>
+    <p>La <strong>optimización matemática</strong> es el proceso de determinar las condiciones (valores de entrada \(x\)) que producen el resultado más favorable (máximo o mínimo de una función objetivo \(f(x)\)).</p>
+    <p>En el cálculo diferencial, este proceso se fundamenta en el análisis de la variación de la pendiente:</p>
+    <ul>
+      <li><strong>Puntos Críticos:</strong> Ocurren en los valores \(x = c\) donde la tasa de cambio instantánea es nula (\(f'(c) = 0\)) o la derivada no existe. Geométricamente, la recta tangente es completamente horizontal.</li>
+      <li><strong>Criterio de la Primera Derivada:</strong> Si la derivada cambia de signo positivo a negativo alrededor de \(c\) (\(+ \to -\)), el punto es un <strong>máximo local</strong>. Si cambia de negativo a positivo (\(- \to +\)), es un <strong>mínimo local</strong>.</li>
+      <li><strong>Criterio de la Segunda Derivada:</strong> La segunda derivada \(f''(x)\) mide la concavidad de la función. Evaluar en el punto crítico nos da una comprobación rápida:
+        <ul>
+          <li>Si \(f''(c) < 0\), la función es cóncava hacia abajo, confirmando un <strong>máximo</strong>.</li>
+          <li>Si \(f''(c) > 0\), la función es cóncava hacia arriba, confirmando un <strong>mínimo</strong>.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h4>Reglas de la Optimización</h4>
+    <p>1. Buscar puntos críticos donde \(f'(x) = 0\).</p>
+    <p>2. Criterio de la 2ª Derivada: Si \(f''(c) < 0 \rightarrow\) <strong>Máximo</strong>. Si \(f''(c) > 0 \rightarrow\) <strong>Mínimo</strong>.</p>
+
+    <div style="margin-top:15px;">
+      <button class="btn btn-primary" onclick="openModal('ex1-s3')"><i class="fa-solid fa-list-ol"></i> Ejemplo 1 – Máxima Altura (Paso a Paso)</button>
+      <button class="btn btn-primary" onclick="openModal('ex2-s3')"><i class="fa-solid fa-list-ol"></i> Ejemplo 2 – Mínimo Costo (Paso a Paso)</button>
+      <button class="btn btn-green" onclick="addXP(80, 'teoria_s3')"><i class="fa-solid fa-circle-check"></i> Completar Lectura Teórica (+80 XP)</button>
+    </div>
+  </div>
+
+  <!-- DESARROLLO 1 CON EVALUADOR Y SIMULADOR -->
+  <h3><i class="fa-solid fa-pen-ruler c-green"></i> Desarrollo 1 – Aplicar (09:00 – 09:50)</h3>
+  <div class="card">
+    <p><span class="badge badge-blue">ABP</span> Resuelve los cuatro planteamientos. En cada caso identifica qué se desea maximizar o minimizar, plantea la función, deriva y verifica el resultado.</p>
+
+    <div class="interactive-exercise">
+      <h4>Ejercicio A1 (ABP) – Ganancia de una empresa</h4>
+      <div class="formula-mini" data-formula-for="a1_s3"><strong>FÓRMULA</strong> \(G\text{ máxima: }G\prime(x)=0\), revisar \(G\prime\prime(x)<0\)</div>
+      <p>La ganancia de una empresa está modelada por
+      \(G(x)=-2x^2+80x-200\), en <strong>miles de pesos</strong>, donde \(x\) representa las unidades vendidas.</p>
+      <p><strong>Pregunta:</strong> ¿Cuántas unidades deben venderse para maximizar la ganancia y cuál es la ganancia máxima?</p>
+      <div class="eval-box">
+        <input type="number" id="ans_a1_s3" placeholder="Unidades óptimas (x)">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('a1_s3', 20, 80, 'sim_a1_s3', 'help_a1_s3')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_a1_s3" class="feedback-msg"></div>
+
+      <div id="help_a1_s3" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Deriva: \(G'(x) = -4x + 80\).</p>
+          <p>2. Iguala a cero: \(-4x + 80 = 0 \rightarrow 4x = 80 \rightarrow x = 20\).</p>
+        </div>
+      </div>
+
+      <div id="sim_a1_s3" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador de Optimización Activado:</h5>
+        <p><strong>Paso 1:</strong> \(G'(x)=-4x+80=0 \rightarrow x=20\).</p>
+        <p><strong>Paso 2:</strong> \(G''(x)=-4\) máximo confirmado.</p>
+        <p><strong>Paso 3:</strong> \(G(20)=-2(20)^2+80(20)-200=600\).</p>
+        <p><strong>Interpretación:</strong> 20 unidades generan una ganancia máxima de <strong>$600 mil pesos</strong>.</p>
+      </div>
+    </div>
+
+    <div class="interactive-exercise">
+      <h4>Ejercicio A2 (ABP) – Temperatura máxima de un horno</h4>
+      <div class="formula-mini" data-formula-for="a2_s3"><strong>FÓRMULA</strong> \(T\text{ extrema: }T\prime(t)=0\), revisar \(T\prime\prime(t)<0\)</div>
+      <p>La temperatura de un horno sigue el modelo \(T(t) = -t^2 + 12t + 20\) en °C, donde \(t\) representa los minutos transcurridos.</p>
+      
+      <p><strong>Pregunta:</strong> ¿En qué momento se alcanza la temperatura máxima y cuál es esa temperatura?</p>
+      
+      <div class="eval-box">
+        <input type="number" id="ans_a2_s3" placeholder="Minutos (t)">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('a2_s3', 6, 80, 'sim_a2_s3', 'help_a2_s3')">Evaluar Respuesta</button>
+      </div>
+      
+      <div id="msg_a2_s3" class="feedback-msg"></div>
+
+      <div id="help_a2_s3" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Deriva \(T'(t) = -2t + 12\).</p>
+          <p>2. Iguala a cero: \(-2t + 12 = 0 \rightarrow t = 6\text{ min}\).</p>
+        </div>
+      </div>
+      
+      <div id="sim_a2_s3" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador de Optimización Activado:</h5>
+        
+        <p><strong>Paso 1 (Derivar e igualar a cero):</strong><br>
+          \(T'(t) = -2t + 12 = 0 \rightarrow 2t = 12 \rightarrow t = 6\text{ minutos}\).
+        </p>
+        
+        <p><strong>Paso 2 (Criterio de la segunda derivada):</strong><br>
+          \(T''(t) = -2\). Al ser un valor negativo (\(< 0\)), se confirma matemáticamente que en \(t = 6\) existe un **máximo**.
+        </p>
+        
+        <p><strong>Paso 3 (Calcular la temperatura máxima):</strong><br>
+          Sustituyendo \(t = 6\) en la función original:<br>
+          \(T(6) = -(6)^2 + 12(6) + 20 = -36 + 72 + 20 = 56^\circ\text{C}\).
+        </p>
+        
+        <p><strong>Resultado Final:</strong><br>
+          El horno alcanza su temperatura máxima de <strong>56 °C a los 6 minutos</strong> de encendido.
+        </p>
+      </div>
+    </div>
+
+
+    <div class="interactive-exercise">
+      <h4>Ejercicio B1 (ABP) – Cercado junto a un río</h4>
+      <div class="formula-mini" data-formula-for="b1_s3"><strong>FÓRMULA</strong> \(2x+y=80\), \(A(x)=x(80-2x)\), \(A\prime(x)=0\)</div>
+      <p>Se desea cercar un terreno rectangular junto a un río. <strong>No se necesita cerca en el lado que colinda con el río</strong>. Se dispone de <strong>80 m de malla</strong>.</p>
+      <p><strong>Pregunta:</strong> ¿Qué dimensión debe tener el lado perpendicular al río (x) para maximizar el área?</p>
+      <div class="eval-box">
+        <input type="number" id="ans_b1_s3" placeholder="Lado perpendicular x (m)">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('b1_s3', 20, 80, 'sim_b1_s3', 'help_b1_s3')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_b1_s3" class="feedback-msg"></div>
+
+      <div id="help_b1_s3" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Cerca usada: \(2x + y = 80 \rightarrow y = 80 - 2x\).</p>
+          <p>2. Área: \(A(x) = x(80 - 2x) = 80x - 2x^2\).</p>
+          <p>3. Deriva: \(A'(x) = 80 - 4x = 0 \rightarrow x = 20\text{ m}\).</p>
+        </div>
+      </div>
+
+      <div id="sim_b1_s3" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador de Optimización Activado:</h5>
+        <p>Sea \(x\) el lado perpendicular al río y \(y\) el lado paralelo.</p>
+        <p><strong>Restricción:</strong> \(2x+y=80 \rightarrow y=80-2x\).</p>
+        <p><strong>Área:</strong> \(A(x)=x(80-2x)=80x-2x^2\).</p>
+        <p><strong>Punto crítico:</strong> \(A'(x)=80-4x=0 \rightarrow x=20\).</p>
+        <p><strong>Dimensión restante:</strong> \(y=80-2(20)=40\text{ m}\).</p>
+        <p><strong>Verificación:</strong> \(A''(x)=-4\) máximo.</p>
+        <p><strong>Resultado:</strong> terreno de <strong>20 m × 40 m</strong>, con área máxima de <strong>800 m²</strong>.</p>
+      </div>
+    </div>
+
+    <div class="interactive-exercise">
+      <h4>Ejercicio B2 (ABP) – Costo de producción</h4>
+      <div class="formula-mini" data-formula-for="b2_s3"><strong>FÓRMULA</strong> \(C\prime(x)=0.02x+5\); revisar el dominio \(x\geq0\)</div>
+      <p>El costo total de producir \(x\) artículos es
+      \(C(x)=0.01x^2+5x+200\), en dólares.</p>
+      <p><strong>Pregunta:</strong> En el dominio real de producción (\(x \ge 0\)), ¿cuántos artículos minimizan el costo?</p>
+      <div class="eval-box">
+        <input type="number" id="ans_b2_s3" placeholder="Cantidad de artículos">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('b2_s3', 0, 80, 'sim_b2_s3', 'help_b2_s3')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_b2_s3" class="feedback-msg"></div>
+
+      <div id="help_b2_s3" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Derivada: \(C'(x) = 0.02x + 5\).</p>
+          <p>2. Para valores positivos de \(x\), la derivada siempre es mayor a cero (el costo siempre aumenta).</p>
+          <p>3. El mínimo absoluto dentro del dominio práctico ocurre en la menor producción posible (\(x = 0\)).</p>
+        </div>
+      </div>
+
+      <div id="sim_b2_s3" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador de Optimización Activado:</h5>
+        <p><strong>Paso 1:</strong> \(C'(x)=0.02x+5\).</p>
+        <p>La ecuación \(0.02x+5=0\) da \(x=-250\), pero una cantidad de artículos no puede ser negativa.</p>
+        <p><strong>Conclusión:</strong> para \(x \ge 0\), \(C'(x) > 0\), por lo que el costo es siempre creciente.</p>
+        <p><strong>Resultado:</strong> no existe un mínimo interior positivo. En el dominio práctico, el mínimo ocurre en la menor cantidad de producción permitida; si se admite \(x=0\), entonces \(C(0)=200\) dólares.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:15px;">
+      <button class="btn btn-orange" onclick="pedirPassword('sol-a1-s3')"><i class="fa-solid fa-lock"></i> Solución Docente A1</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-a2-s3')"><i class="fa-solid fa-lock"></i> Solución Docente A2</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-b1-s3')"><i class="fa-solid fa-lock"></i> Solución Docente B1</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-b2-s3')"><i class="fa-solid fa-lock"></i> Solución Docente B2</button>
+    </div>
+  </div>
+
+  <h3><i class="fa-solid fa-magnifying-glass-chart c-orange"></i> Desarrollo 2 – Analizar (10:00 – 10:50)</h3>
+  <div class="card">
+    <p><strong>Objetivo:</strong> Descomponer problemas de optimización, comparar criterios y relacionar el signo de la derivada con el comportamiento óptimo.</p>
+    <form id="formAnalizarS3" onsubmit="guardarForm(event,'analizarS3','msgAnalizarS3',40)">
+      <ol>
+        <li>Compara los ejemplos del inicio: máxima altura y mínimo costo. ¿Por qué en uno buscamos máximo y en el otro mínimo?</li>
+        <li>En el Ejercicio A1, ¿qué pasa con la ganancia si se venden menos o más unidades que el óptimo?</li>
+        <li>Explica por qué un punto crítico es un candidato y debe verificarse.</li>
+        <li>¿En qué situaciones un máximo o mínimo relativo podría no ser absoluto?</li>
+      </ol>
+      <textarea name="analisis" rows="5" placeholder="Escribe un análisis argumentado..." required></textarea>
+      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar análisis (+40 XP)</button>
+      <p id="msgAnalizarS3" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> Análisis guardado.</p>
+    </form>
+  </div>
+
+  <h3><i class="fa-solid fa-scale-balanced c-orange"></i> Desarrollo 3 – Evaluar (11:05 – 12:00)</h3>
+  <div class="card">
+    <h4>Reto de evaluación ABP: ¿Qué modelo de ganancia conviene?</h4>
+    <p>Una empresa de apps tiene dos modelos de ganancia semanal según el precio <strong>p</strong> (en dólares) de su suscripción:</p>
+    <ul>
+      <li><strong>Modelo A:</strong> \(G_A(p)=-3p^2+90p-200\)</li>
+      <li><strong>Modelo B:</strong> \(G_B(p)=-2p^2+70p-150\)</li>
+    </ul>
+    <p>El precio debe estar entre <strong>$10 y $25</strong>.</p>
+    <ol>
+      <li>Encuentra el precio que maximiza la ganancia en cada modelo.</li>
+      <li>Calcula la ganancia máxima de cada uno.</li>
+      <li>¿Cuál modelo genera mayor ganancia máxima?</li>
+      <li>Justifica cuál recomendarías considerando también el precio y el rango permitido.</li>
+    </ol>
+    <div class="simulator-box" style="display:block">
+      <h5><i class="fa-solid fa-calculator"></i> Resultado de referencia</h5>
+      <p>Modelo A: \(G_A'(p)=-6p+90=0 \Rightarrow p=15\), \(G_A(15)=475\).</p>
+      <p>Modelo B: \(G_B'(p)=-4p+70=0 \Rightarrow p=17.5\), \(G_B(17.5)=462.5\).</p>
+      <p>Ambos óptimos están dentro de $10–$25. Se recomienda el <strong>Modelo A</strong> porque alcanza una ganancia máxima mayor y a un precio más bajo.</p>
+    </div>
+  </div>
+
+  <h3><i class="fa-solid fa-wand-magic-sparkles c-purple"></i> Cierre – Crear</h3>
+  <div class="card success">
+    <h4>Propón tu Caso de Optimización</h4>
+    <div class="card highlight" style="margin-bottom:15px">
+      <h5><i class="fa-solid fa-lightbulb"></i> Preguntas Guías y Tips para Diseñar tu Caso:</h5>
+      <ul>
+        <li><strong>Identifica el Contexto:</strong> ¿Qué situación real de tu entorno (negocio local, viaje, proyecto personal, producción) quieres mejorar?</li>
+        <li><strong>Define la Variable Principal (\(x\)):</strong> ¿Qué cantidad puedes controlar o variar? (Ej. precio por producto, dimensiones de un empaque, velocidad de un recorrido, horas de estudio).</li>
+        <li><strong>Establece la Función Objetivo (\(f(x)\)):</strong> ¿Qué deseas maximizar (ganancia, área, rendimiento) o minimizar (costo, material, tiempo)?</li>
+        <li><strong>Plantea Restricciones:</strong> ¿Existen límites físicos, presupuestales o de tiempo? (Ej. presupuesto máximo de $500, dimensiones positivas \(x > 0\)).</li>
+        <li><strong>Tips de Análisis:</strong> Recuerda derivar la función, igualar a cero para hallar el punto crítico y verificar con la segunda derivada si es máximo o mínimo.</li>
+      </ul>
+    </div>
+    <form id="formCrearS3" onsubmit="guardarForm(event,'modeloS3','msgModeloS3', 150)">
+      <div style="margin-bottom:12px"><label>Planteamiento del problema de optimización</label><textarea name="problema" rows="4" placeholder="Redacta tu problema incluyendo la situación, la función objetivo, los cálculos de optimización y la decisión final recomendada..." required></textarea></div>
+      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar Modelo y Ganar +150 XP</button>
+      <p id="msgModeloS3" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> Guardado (+150 XP).</p>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== SESIÓN 4 ===================== -->
+<section id="sesion4" class="section">
+  <h2><i class="fa-solid fa-chart-area c-purple"></i> Sesión 4: ¿Cuánto ocurrió realmente?</h2>
+  <p class="meta">Tema: La Integral Definida como Acumulación Neta · 6 horas</p>
+
+  <div class="card highlight">
+    <h3>Objetivo General de la Sesión</h3>
+    <p><strong>Comprender</strong> la integral definida como acumulación total o área bajo la curva, <strong>aplicar</strong> el Teorema Fundamental del Cálculo y <strong>medir</strong> acumulaciones de distancia, producción y energía.</p>
+  </div>
+
+  <!-- INICIO DE LA SESIÓN 4 -->
+  <h3><i class="fa-solid fa-book-open"></i> Inicio (08:00 – 08:50) · Recordar + Comprender</h3>
+
+  <div class="card purple">
+    <h3><i class="fa-solid fa-infinity"></i> ¿Qué es la integración?</h3>
+    <p>La <strong>integración</strong> es el proceso de acumular cantidades pequeñas para obtener un total. En una integral definida, el resultado puede interpretarse como el área neta bajo una curva o como una cantidad acumulada.</p>
+    <p><strong>Idea principal:</strong> si conocemos una tasa de cambio, la integral nos permite recuperar la cantidad acumulada.</p>
+    <div class="formula">\[\int_a^b f(x)\,dx=F(b)-F(a)\quad\text{si }F'(x)=f(x)\]</div>
+    <p><strong>Proceso básico:</strong> identifica la función → encuentra una antiderivada → aplica los límites → resta el valor final menos el inicial → interpreta las unidades.</p>
+  </div>
+
+  <div class="card">
+    <h3><i class="fa-solid fa-layer-group"></i> Fichas de integración: definidas y no definidas</h3>
+    <div class="card highlight">
+      <h4>1. Integral definida</h4>
+      <p>Tiene límites de integración y entrega un valor concreto de acumulación.</p>
+      <div class="formula">\[\int_a^b f(x)\,dx=F(b)-F(a)\]</div>
+      <p><strong>Ejemplo:</strong> \(\int_0^3 2x\,dx=[x^2]_0^3=9\). El resultado es <strong>9 unidades cuadradas</strong>.</p>
+      <p><strong>Ejemplo aplicado:</strong> si una tasa de consumo es \(r(t)=4t\) L/min durante 0 a 5 min, entonces \(\int_0^5 4t\,dt=50\) L.</p>
+    </div>
+    <div class="card warning">
+      <h4>2. Integral no definida (indefinida)</h4>
+      <p>No tiene límites. Representa una <strong>familia de antiderivadas</strong> y por eso se agrega la constante \(C\).</p>
+      <div class="formula">\[\int f(x)\,dx=F(x)+C\]</div>
+      <p><strong>Ejemplo:</strong> \(\int 6x^2\,dx=2x^3+C\).</p>
+      <p><strong>Otro ejemplo:</strong> \(\int (4x+3)\,dx=2x^2+3x+C\).</p>
+    </div>
+  </div>
+
+  <div class="card success">
+    <h3><i class="fa-solid fa-pencil"></i> Ejercicios para resolver</h3>
+    <div class="interactive-exercise">
+      <h4>Ejercicio 1 — Integral definida</h4>
+      <p>Resuelve: \(\int_1^4 3x^2\,dx\).</p>
+      <div class="eval-box">
+        <input type="number" id="ans_int_def_s4" placeholder="Escribe el resultado">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('int_def_s4',63,80,'sim_int_def_s4','help_int_def_s4')">Evaluar</button>
+      </div>
+      <div id="msg_int_def_s4" class="feedback-msg"></div>
+      <div id="help_int_def_s4" class="accordion" style="display:none;margin-top:10px">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Pista <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content"><p>Encuentra una antiderivada: \(\int3x^2dx=x^3\). Después calcula \(4^3-1^3\).</p></div>
+      </div>
+      <div id="sim_int_def_s4" class="simulator-box"><p><strong>Procedimiento:</strong> \([x^3]_1^4=4^3-1^3=64-1=63\).</p><p><strong>Resultado:</strong> 63.</p></div>
+    </div>
+    <div class="interactive-exercise">
+      <h4>Ejercicio 2 — Integral no definida</h4>
+      <p>Resuelve: \(\int (5x^4-2x)\,dx\).</p>
+      <div class="eval-box">
+        <input type="text" id="ans_int_ind_s4" placeholder="Ej: x^5-x^2+C">
+        <button class="btn btn-primary" onclick="evaluarTextoIntegralS4()">Evaluar</button>
+      </div>
+      <div id="msg_int_ind_s4" class="feedback-msg"></div>
+      <div id="sim_int_ind_s4" class="simulator-box"><p><strong>Procedimiento:</strong> integra cada término: \(\int5x^4dx=x^5\) y \(\int-2xdx=-x^2\). Se agrega \(C\).</p><p><strong>Resultado:</strong> \(x^5-x^2+C\).</p></div>
+    </div>
+    <div style="margin-top:15px;">
+      <button class="btn btn-orange" onclick="pedirPassword('sol-intdef-s4')"><i class="fa-solid fa-lock"></i> Solución Docente Ejercicio 1</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-intind-s4')"><i class="fa-solid fa-lock"></i> Solución Docente Ejercicio 2</button>
+    </div>
+  </div>
+  
+  <div class="card warning">
+    <h4><i class="fa-solid fa-brain"></i> Exploración de Conocimientos Previos (Enganche)</h4>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">1. Lluvia de Ideas: “Tasa de Flujo vs. Agua en el Tinaco” <span><i class="fa-solid fa-plus"></i></span></div>
+      <div class="accordion-content">
+        <p>Si abres una llave que tira agua a diferentes velocidades durante 10 minutos, ¿cómo calculas el total de litros acumulados en la tina? La integral responde exactamente a esta pregunta.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-visual">
+      <svg viewBox="0 0 100 100" style="background:#f3e8ff; border-radius:8px;">
+        <path d="M 10 90 L 90 90 M 10 90 L 10 10" stroke="#6b21a8" stroke-width="4"/>
+        <path d="M 20 80 Q 50 20 80 80 Z" fill="rgba(168, 85, 247, 0.4)" stroke="#a855f7" stroke-width="3"/>
+      </svg>
+      <div>
+        <h4>Concepto de Integral Definida</h4>
+        <p>Representa el <strong>área bajo la curva</strong> o la acumulación total de una variable que cambia a lo largo de un intervalo \([a, b]\).</p>
+        <div class="formula">\[ \int_{a}^{b} f(x) \, dx = F(b) - F(a) \]</div>
+      </div>
+    </div>
+
+    <div style="margin-top:15px;">
+      <button class="btn btn-primary" onclick="openModal('ex1-s4')"><i class="fa-solid fa-list-ol"></i> Ejemplo 1 – Distancia Recorrida (Paso a Paso)</button>
+      <button class="btn btn-primary" onclick="openModal('ex2-s4')"><i class="fa-solid fa-list-ol"></i> Ejemplo 2 – Costo Total Acumulado (Paso a Paso)</button>
+      <button class="btn btn-green" onclick="addXP(80, 'teoria_s4')"><i class="fa-solid fa-circle-check"></i> Completar Lectura Teórica (+80 XP)</button>
+    </div>
+  </div>
+
+  <!-- DESARROLLO 1 CON EVALUADOR Y SIMULADOR -->
+  <h3><i class="fa-solid fa-pen-ruler c-green"></i> Desarrollo 1 – Aplicar (09:00 – 09:50)</h3>
+  <div class="card">
+    <p><span class="badge badge-blue">ABP</span> Calcula acumulaciones reales. Recuerda: la integral definida representa la acumulación neta de una tasa en un intervalo.</p>
+
+    <div class="interactive-exercise">
+      <h4>Ejercicio A1 (ABP) – Distancia del ciclista</h4>
+      <div class="formula-mini" data-formula-for="a1_s4"><strong>FÓRMULA</strong> \(\text{Distancia}=\int_a^b v(t)\,dt\)</div>
+      <p>La velocidad de un ciclista es \(v(t)=2t+3\) m/s.</p>
+      <p><strong>Pregunta:</strong> Calcula la distancia neta recorrida entre \(t=1\) s y \(t=5\) s e interpreta el resultado.</p>
+      <div class="eval-box">
+        <input type="number" id="ans_a1_s4" placeholder="Distancia en metros">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('a1_s4', 36, 80, 'sim_a1_s4', 'help_a1_s4')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_a1_s4" class="feedback-msg"></div>
+
+      <div id="help_a1_s4" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Integra \(v(t)\): \(\int (2t+3) dt = t^2 + 3t\).</p>
+          <p>2. Evalúa en 5: \(5^2 + 3(5) = 25 + 15 = 40\).</p>
+          <p>3. Evalúa en 1: \(1^2 + 3(1) = 4\).</p>
+          <p>4. Resta: \(40 - 4 = 36\text{ m}\).</p>
+        </div>
+      </div>
+
+      <div id="sim_a1_s4" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador de Acumulación Activado:</h5>
+        <p>\(s=\int_1^5(2t+3)\,dt=\left[t^2+3t\right]_1^5\).</p>
+        <p>\(s=(25+15)-(1+3)=40-4=36\text{ m}\).</p>
+        <p><strong>Interpretación:</strong> el ciclista acumula 36 m de desplazamiento neto en ese intervalo.</p>
+      </div>
+    </div>
+
+    <div class="interactive-exercise">
+      <h4>Ejercicio A2 (ABP) – Crecimiento de una población de bacterias</h4>
+      <div class="formula-mini" data-formula-for="a2_s4"><strong>FÓRMULA</strong> \(\text{Acumulación}=\int_a^b r(t)\,dt\)</div>
+      <p>La tasa de crecimiento de una población de bacterias es \(r(t)=50+10t\) bacterias por hora.</p>
+      <p><strong>Pregunta:</strong> ¿Cuántas bacterias se acumulan entre la hora 2 y la hora 6 y qué representa ese valor?</p>
+      <div class="eval-box">
+        <input type="number" id="ans_a2_s4" placeholder="Bacterias acumuladas">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('a2_s4', 360, 80, 'sim_a2_s4', 'help_a2_s4')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_a2_s4" class="feedback-msg"></div>
+
+      <div id="help_a2_s4" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Integral: \(\int (50 + 10t) dt = 50t + 5t^2\).</p>
+          <p>2. En \(t=6\): \(50(6) + 5(36) = 300 + 180 = 480\).</p>
+          <p>3. En \(t=2\): \(50(2) + 5(4) = 100 + 20 = 120\).</p>
+          <p>4. Resta: \(480 - 120 = 360\).</p>
+        </div>
+      </div>
+
+      <div id="sim_a2_s4" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador de Acumulación Activado:</h5>
+        <p>\(\int_2^6(50+10t)\,dt=\left[50t+5t^2\right]_2^6\).</p>
+        <p>\(=(300+180)-(100+20)=480-120=360\).</p>
+        <p><strong>Interpretación:</strong> entre las horas 2 y 6 se acumulan 360 nuevas bacterias.</p>
+      </div>
+    </div>
+
+    <div class="interactive-exercise">
+      <h4>Ejercicio B1 (ABP) – Costo total de producción</h4>
+      <div class="formula-mini" data-formula-for="b1_s4"><strong>FÓRMULA</strong> \(C(x)=\int C\prime(x)\,dx+ C_0\)</div>
+      <p>El costo marginal de un producto es \(C'(x)=0.3x+8\). El costo fijo es <strong>$150</strong>.</p>
+      <p><strong>Pregunta:</strong> Encuentra la función de costo total \(C(x)\) y calcula el costo total de producir 40 unidades.</p>
+      <div class="eval-box">
+        <input type="number" id="ans_b1_s4" placeholder="Costo total en $">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('b1_s4', 710, 80, 'sim_b1_s4', 'help_b1_s4')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_b1_s4" class="feedback-msg"></div>
+
+      <div id="help_b1_s4" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Integrar: \(C(x) = 0.15x^2 + 8x + 150\).</p>
+          <p>2. Sustituir \(x=40\): \(0.15(1600) + 8(40) + 150 = 240 + 320 + 150 = 710\).</p>
+        </div>
+      </div>
+
+      <div id="sim_b1_s4" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador de Acumulación Activado:</h5>
+        <p>\(C(x)=\int(0.3x+8)\,dx=0.15x^2+8x+150\).</p>
+        <p>\(C(40)=0.15(1600)+8(40)+150=240+320+150=710\).</p>
+        <p><strong>Resultado:</strong> producir 40 unidades cuesta $710.</p>
+      </div>
+    </div>
+
+    <div class="interactive-exercise">
+      <h4>Ejercicio B2 (ABP) – Energía consumida por un motor</h4>
+      <div class="formula-mini" data-formula-for="b2_s4"><strong>FÓRMULA</strong> \(E=\int_a^b P(t)\,dt\)  (energía en Wh)</div>
+      <p>La potencia consumida por un motor es \(P(t)=120+15t\) watts, donde \(t\) está en horas.</p>
+      <p><strong>Pregunta:</strong> Calcula la energía total consumida entre \(t=0\) y \(t=4\) horas e interpreta el resultado.</p>
+      <div class="eval-box">
+        <input type="number" id="ans_b2_s4" placeholder="Energía en Wh">
+        <button class="btn btn-primary" onclick="evaluarEjercicio('b2_s4', 600, 80, 'sim_b2_s4', 'help_b2_s4')">Evaluar Respuesta</button>
+      </div>
+      <div id="msg_b2_s4" class="feedback-msg"></div>
+
+      <div id="help_b2_s4" class="accordion" style="display:none; margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)"><i class="fa-solid fa-lightbulb"></i> Preguntas de ayuda <span><i class="fa-solid fa-plus"></i></span></div>
+        <div class="accordion-content">
+          <p>1. Integral: \(E = 120t + 7.5t^2\).</p>
+          <p>2. Evalúa en \(t=4\): \(120(4) + 7.5(16) = 480 + 120 = 600\text{ Wh}\).</p>
+        </div>
+      </div>
+
+      <div id="sim_b2_s4" class="simulator-box">
+        <h5><i class="fa-solid fa-laptop-code"></i> Simulador de Acumulación Activado:</h5>
+        <p>\(E=\int_0^4(120+15t)\,dt=\left[120t+\frac{15}{2}t^2\right]_0^4\).</p>
+        <p>\(=(480+120)-0=600\text{ Wh} = 0.6\text{ kWh}\).</p>
+        <p><strong>Interpretación:</strong> el motor consumió 600 Wh durante las cuatro horas.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:15px;">
+      <button class="btn btn-orange" onclick="pedirPassword('sol-a1-s4')"><i class="fa-solid fa-lock"></i> Solución Docente A1</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-a2-s4')"><i class="fa-solid fa-lock"></i> Solución Docente A2</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-b1-s4')"><i class="fa-solid fa-lock"></i> Solución Docente B1</button>
+      <button class="btn btn-orange" onclick="pedirPassword('sol-b2-s4')"><i class="fa-solid fa-lock"></i> Solución Docente B2</button>
+    </div>
+  </div>
+
+  <h3><i class="fa-solid fa-magnifying-glass-chart c-orange"></i> Desarrollo 2 – Analizar (10:00 – 10:50)</h3>
+  <div class="card">
+    <p><strong>Objetivo:</strong> Descomponer el significado de la integral, comparar acumulación neta y bruta y relacionar derivada e integral.</p>
+    <form id="formAnalizarS4" onsubmit="guardarForm(event,'analizarS4','msgAnalizarS4',40)">
+      <ol>
+        <li>Compara los ejemplos del inicio: auto y costo. ¿Qué cantidad se acumula en cada caso?</li>
+        <li>Explica con tus palabras la diferencia entre razón de cambio y acumulación total.</li>
+        <li>Si la velocidad es negativa en algún intervalo, ¿qué significa la integral? ¿Puede ser menor que la distancia total recorrida?</li>
+        <li>Identifica situaciones reales donde la acumulación neta sea más útil que la bruta y viceversa.</li>
+      </ol>
+      <textarea name="analisis" rows="5" placeholder="Escribe un análisis argumentado..." required></textarea>
+      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar análisis (+40 XP)</button>
+      <p id="msgAnalizarS4" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> Análisis guardado.</p>
+    </form>
+  </div>
+
+  <h3><i class="fa-solid fa-scale-balanced c-orange"></i> Desarrollo 3 – Evaluar (11:05 – 12:00)</h3>
+  <div class="card">
+    <h4>Reto de evaluación ABP: ¿Qué fábrica conviene contratar?</h4>
+    <p>Dos fábricas reportan su tasa de producción de piezas por hora:</p>
+    <ul>
+      <li><strong>Fábrica A:</strong> \(r_A(t)=30+4t\)</li>
+      <li><strong>Fábrica B:</strong> \(r_B(t)=20+6t\)</li>
+    </ul>
+    <p>Ambas trabajan un turno de <strong>8 horas</strong>, de \(t=0\) a \(t=8\).</p>
+    <ol>
+      <li>Calcula la producción total acumulada de cada fábrica.</li>
+      <li>¿Cuál produce más piezas en total?</li>
+      <li>¿En qué momento tienen la misma tasa de producción?</li>
+      <li>Justifica cuál recomendarías para un pedido grande.</li>
+    </ol>
+    <div class="simulator-box" style="display:block">
+      <h5><i class="fa-solid fa-calculator"></i> Resultado de referencia</h5>
+      <p>Fábrica A: \(\int_0^8(30+4t)dt=\left[30t+2t^2\right]_0^8=368\) piezas.</p>
+      <p>Fábrica B: \(\int_0^8(20+6t)dt=\left[20t+3t^2\right]_0^8=352\) piezas.</p>
+      <p>Igualación de tasas: \(30+4t=20+6t \Rightarrow t=5\) horas.</p>
+      <p><strong>Decisión:</strong> se recomienda la Fábrica A para un pedido grande porque acumula más producción al finalizar las 8 horas: 368 frente a 352 piezas.</p>
+    </div>
+  </div>
+
+  <h3><i class="fa-solid fa-wand-magic-sparkles c-purple"></i> Cierre – Crear</h3>
+  <div class="card success">
+    <h4>Crea tu Modelo de Acumulación</h4>
+    <form id="formCrearS4" onsubmit="guardarForm(event,'modeloS4','msgModeloS4', 150)">
+      <div style="margin-bottom:12px"><label>Describe el fenómeno acumulativo</label><textarea name="acumulacion" rows="2" required></textarea></div>
+      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar Modelo y Ganar +150 XP</button>
+      <p id="msgModeloS4" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> Guardado (+150 XP).</p>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== RETO FINAL ===================== -->
+<section id="reto" class="section">
+  <h2><i class="fa-solid fa-trophy c-orange"></i> Reto Final: Matemáticas para Tomar una Decisión</h2>
+  <p class="meta">Integración de las 4 Sesiones: Modelar \(\to\) Medir \(\to\) Optimizar \(\to\) Acumular \(\to\) Proponer</p>
+
+  <div class="card highlight">
+    <h3>Objetivo del Reto Final</h3>
+    <p><strong>Integrar</strong> el cálculo diferencial e integral en una toma de decisiones real y justificada para una empresa en marcha.</p>
+  </div>
+
+  <div class="card warning">
+    <h4><i class="fa-solid fa-briefcase"></i> Caso Integrador: Empresa de Delivery “Rápido & Rico”</h4>
+    <p><strong>Costo diario:</strong> \(C(x) = 0.02x^2 + 8x + 120\)</p>
+    <p><strong>Ganancia diaria:</strong> \(G(x) = -0.03x^2 + 12x - 150\) (\(x\) = cantidad de pedidos diarios).</p>
+    <p>Se consideran <strong>26 días laborales</strong> al mes.</p>
+  </div>
+
+  <div class="card">
+    <h4>Formulario Guiado del Reto Final (5 Fases)</h4>
+    <form id="formReto" onsubmit="guardarForm(event,'retoFinal','msgReto', 200)">
+      <div style="margin-bottom:14px">
+        <label>Fase 1 – Modelar: Describe el comportamiento de la función \(G(x)\).</label>
+        <textarea name="fase1" rows="2" required></textarea>
+      </div>
+      <div style="margin-bottom:14px">
+        <label>Fase 2 – Medir: Calcula la derivada \(G'(x)\) e interpreta \(G'(30)\) y \(G'(50)\).</label>
+        <textarea name="fase2" rows="2" required></textarea>
+      </div>
+      <div style="margin-bottom:14px">
+        <label>Fase 3 – Optimizar: Determina los pedidos \(x\) que maximizan la ganancia diaria.</label>
+        <textarea name="fase3" rows="2" required></textarea>
+      </div>
+      <div style="margin-bottom:14px">
+        <label>Fase 4 – Acumular: Calcula la ganancia mensual acumulada durante los 26 días laborales, manteniendo la operación en el punto óptimo.</label>
+        <textarea name="fase4" rows="2" required></textarea>
+      </div>
+      <div style="margin-bottom:18px">
+        <label>Fase 5 – Proponer: Redacta la recomendación final formal para el dueño.</label>
+        <textarea name="fase5" rows="3" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar Reto Final y Obtener +200 XP</button>
+      <p id="msgReto" style="margin-top:10px;color:var(--secondary);font-weight:600;display:none"><i class="fa-solid fa-circle-check"></i> ¡Reto Final Completado (+200 XP)!</p>
+    </form>
+
+    <div style="margin-top:15px;">
+      <button class="btn btn-orange" onclick="pedirPassword('sol-reto-final')"><i class="fa-solid fa-lock"></i> Solución Completa del Reto (Docente)</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GLOSARIO ===================== -->
+<section id="glosario" class="section">
+  <h2><i class="fa-solid fa-book"></i> Glosario del Proyecto</h2>
+  <p class="meta">Conceptos utilizados en Matemáticas Aplicadas para la Toma de Decisiones. Las definiciones están organizadas de acuerdo con los temas de las cuatro sesiones y el reto integrador.</p>
+  <div class="card highlight"><h3>¿Qué es este glosario?</h3><p>Es una referencia rápida para entender el vocabulario matemático que aparece en las actividades, ejemplos, ejercicios y modelos del proyecto. Úsalo para identificar conceptos, interpretar fórmulas y explicar tus resultados con palabras.</p></div>
+  <div class="card"><h3>Funciones y modelación</h3>
+    <p><strong>Función:</strong> relación en la que a cada valor de la variable independiente le corresponde exactamente un valor de la variable dependiente.</p>
+    <p><strong>Variable independiente:</strong> entrada o cantidad que se controla o utiliza para explicar un cambio.</p>
+    <p><strong>Variable dependiente:</strong> salida o cantidad que responde al valor de la variable independiente.</p>
+    <p><strong>Dominio:</strong> conjunto de valores permitidos para la variable independiente.</p>
+    <p><strong>Rango:</strong> conjunto de valores que puede tomar la variable dependiente.</p>
+    <p><strong>Modelación:</strong> uso de funciones, ecuaciones o gráficas para representar y analizar un fenómeno real.</p>
+    <p><strong>Función lineal:</strong> función de la forma y=mx+b; su pendiente es constante.</p>
+    <p><strong>Pendiente:</strong> cambio vertical dividido entre cambio horizontal; indica cuánto cambia una variable por cada unidad de la otra.</p>
+    <p><strong>Función cuadrática:</strong> función de la forma f(x)=ax²+bx+c; su gráfica es una parábola.</p>
+    <p><strong>Vértice:</strong> punto extremo de una parábola; puede representar un máximo o un mínimo.</p>
+  </div>
+  <div class="card warning"><h3>Derivadas y razón de cambio</h3>
+    <p><strong>Razón de cambio promedio:</strong> cambio total de una cantidad dividido entre el cambio de la variable independiente en un intervalo.</p>
+    <p><strong>Razón de cambio instantánea:</strong> cambio de una función en un instante; se representa mediante la derivada.</p>
+    <p><strong>Derivada:</strong> razón de cambio instantánea o pendiente de la recta tangente a una curva.</p>
+    <p><strong>Recta secante:</strong> recta que pasa por dos puntos de una curva y permite calcular una razón de cambio promedio.</p>
+    <p><strong>Recta tangente:</strong> recta que representa localmente la dirección de una curva en un punto; su pendiente corresponde a la derivada.</p>
+    <p><strong>Derivada por definición:</strong> límite que expresa la razón de cambio instantánea cuando el intervalo se hace cada vez más pequeño.</p>
+    <p><strong>Costo marginal:</strong> derivada del costo total; indica cómo cambia aproximadamente el costo ante una unidad adicional.</p>
+    <p><strong>Tasa de crecimiento:</strong> medida de qué tan rápido aumenta o disminuye una cantidad, como una población.</p>
+  </div>
+  <div class="card success"><h3>Optimización</h3>
+    <p><strong>Optimización:</strong> proceso de encontrar la mejor alternativa según un objetivo, buscando un máximo o un mínimo.</p>
+    <p><strong>Máximo absoluto:</strong> valor más grande de una función en el intervalo considerado.</p>
+    <p><strong>Mínimo absoluto:</strong> valor más pequeño de una función en el intervalo considerado.</p>
+    <p><strong>Máximo relativo:</strong> valor mayor que los valores cercanos en un entorno de la función.</p>
+    <p><strong>Mínimo relativo:</strong> valor menor que los valores cercanos en un entorno de la función.</p>
+    <p><strong>Punto crítico:</strong> valor de x donde la derivada es cero o no existe, y que puede ser candidato a máximo o mínimo.</p>
+    <p><strong>Función objetivo:</strong> función que representa la cantidad que se desea maximizar o minimizar, como ganancia o costo.</p>
+    <p><strong>Criterio de la primera derivada:</strong> método que clasifica un punto crítico observando el cambio de signo de la primera derivada.</p>
+    <p><strong>Criterio de la segunda derivada:</strong> método que usa f''(c) para distinguir un máximo o mínimo cuando f'(c)=0.</p>
+  </div>
+  <div class="card purple"><h3>Integración y acumulación</h3>
+    <p><strong>Integral definida:</strong> acumulación neta de una función entre dos límites.</p>
+    <p><strong>Integral indefinida:</strong> familia de antiderivadas de una función, expresada con una constante C.</p>
+    <p><strong>Antiderivada:</strong> función F cuya derivada es la función original f.</p>
+    <p><strong>Acumulación neta:</strong> resultado de sumar cambios positivos y negativos a lo largo de un intervalo.</p>
+    <p><strong>Área bajo la curva:</strong> interpretación geométrica de una integral; debe distinguirse entre área neta y área geométrica.</p>
+    <p><strong>Teorema Fundamental del Cálculo:</strong> conecta derivación e integración y permite calcular una integral definida mediante una antiderivada.</p>
+    <p><strong>Linealidad de la integral:</strong> propiedad que permite separar sumas y sacar constantes fuera de una integral.</p>
+  </div>
+  <div class="card highlight"><h3>Teoría ampliada para estudiar</h3>
+    <p><strong>Cómo leer una función:</strong> primero identifica qué representa x, qué representa y y cuáles son sus unidades. Después determina el dominio realista y observa si el fenómeno aumenta, disminuye o permanece constante.</p>
+    <p><strong>Cómo interpretar una derivada:</strong> f′(x) no es solamente una operación algebraica; representa la velocidad o tasa de cambio instantánea. Si f′(x)>0, la función aumenta; si f′(x)<0, disminuye; y si f′(x)=0 puede existir un máximo, mínimo o un punto crítico que debe analizarse.</p>
+    <p><strong>Cómo usar la segunda derivada:</strong> f′′(x) describe cómo cambia la pendiente. En un punto crítico, f′′(x)>0 sugiere un mínimo local y f′′(x)<0 sugiere un máximo local, siempre que se cumplan las condiciones del problema.</p>
+    <p><strong>Cómo entender una integral:</strong> una integral definida suma cantidades pequeñas a lo largo de un intervalo. Por eso puede representar distancia acumulada, consumo total, energía, agua utilizada o cualquier cantidad que se acumule.</p>
+    <p><strong>Integral definida vs. indefinida:</strong> la definida tiene límites y produce un valor numérico; la indefinida no tiene límites y produce una familia de antiderivadas acompañada de la constante C.</p>
+    <p><strong>Teorema Fundamental del Cálculo:</strong> permite pasar de una tasa de cambio a una cantidad acumulada mediante una antiderivada. Si F′(x)=f(x), entonces ∫ₐᵇ f(x)dx=F(b)−F(a).</p>
+    <p><strong>Buenas prácticas:</strong> antes de entregar cualquier resultado, revisa signos, unidades, dominio, sustitución de valores y si la respuesta tiene sentido en el contexto real.</p>
+  </div>
+  <div class="card"><h3>Conceptos del proyecto</h3>
+    <p><strong>ABP:</strong> Aprendizaje Basado en Proyectos; el estudiante aplica matemáticas para resolver situaciones contextualizadas.</p>
+    <p><strong>Taxonomía de Bloom:</strong> organización de procesos cognitivos utilizada en la guía: recordar, comprender, aplicar, analizar, evaluar y crear.</p>
+    <p><strong>Pomodoro:</strong> estrategia de organización del tiempo mediante bloques de trabajo y descansos.</p>
+    <p><strong>XP:</strong> puntos de experiencia del sistema de gamificación del proyecto. Cada recompensa está vinculada a una actividad única.</p>
+    <p><strong>Reto integrador:</strong> actividad final que combina modelación, razón de cambio, optimización y acumulación para tomar una decisión.</p>
+    <p><strong>Interpretación real:</strong> explicación del resultado matemático usando las unidades y el significado del fenómeno estudiado.</p>
+    <p><strong>Dominio realista:</strong> valores de la variable que tienen sentido en el fenómeno; por ejemplo, no siempre tiene sentido usar tiempos o cantidades negativas.</p>
+  </div>
+</section>
+
+<footer>Programa “Matemáticas para Tomar una Decisión” · Guía completa de estudio · CECyTE / Educación Superior</footer>
+</main>
+</div>
+
+<!-- MODAL PRINCIPAL DE EJEMPLOS Y SOLUCIONES -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modalContent" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="modalTitle">Título</h3>
+      <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- MODAL DE CONTRASEÑA DOCENTE -->
+<div class="modal-overlay" id="passOverlay" onclick="closePassOutside(event)">
+  <div class="modal" style="max-width:380px" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fa-solid fa-lock"></i> Acceso Restringido a Docentes</h3>
+      <button class="modal-close" onclick="closePass()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="pass-box">
+      <p>Ingresa la clave docente para visualizar el solucionario paso a paso:</p>
+      <input type="password" id="passInput" placeholder="Contraseña" onkeydown="if(event.key==='Enter')verificarPass()" />
+      <br>
+      <button class="btn btn-primary" onclick="verificarPass()">Verificar Acceso</button>
+      <p class="pass-error" id="passError">Contraseña incorrecta.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // --- GAMIFICACIÓN Y PUNTOS XP ---
+  const XP_STORAGE_KEY = 'mathplus_xp_v2';
+  const XP_CLAIMS_KEY = 'mathplus_xp_recompensas_v2';
+  let userXP = Number(localStorage.getItem(XP_STORAGE_KEY) || 0);
+  let recompensasXP = JSON.parse(localStorage.getItem(XP_CLAIMS_KEY) || '{}');
+  const estadoEjerciciosXP = Object.create(null);
+  const MAX_OPORTUNIDADES = 5;
+  const INTENTOS_STORAGE_KEY = 'mathplus_oportunidades_v1';
+
+  function cargarEstadoIntentos(id) {
+    try {
+      const guardados = JSON.parse(localStorage.getItem(INTENTOS_STORAGE_KEY) || '{}');
+      return guardados[id] || { intentosUsados: 0, bloqueado: false };
+    } catch (e) {
+      return { intentosUsados: 0, bloqueado: false };
+    }
+  }
+
+  function guardarEstadoIntentos(id, estado) {
+    try {
+      const guardados = JSON.parse(localStorage.getItem(INTENTOS_STORAGE_KEY) || '{}');
+      guardados[id] = { intentosUsados: estado.intentosUsados, bloqueado: !!estado.bloqueado };
+      localStorage.setItem(INTENTOS_STORAGE_KEY, JSON.stringify(guardados));
+    } catch (e) {}
+  }
+
+  function actualizarIndicadorOportunidades(id, restantes, bloqueado) {
+    const input = document.getElementById('ans_' + id);
+    if (!input) return;
+    let indicador = document.getElementById('oportunidades_' + id);
+    if (!indicador) {
+      indicador = document.createElement('div');
+      indicador.id = 'oportunidades_' + id;
+      indicador.className = 'oportunidades-indicador';
+      input.parentElement.appendChild(indicador);
+    }
+    indicador.innerHTML = bloqueado
+      ? '<i class="fa-solid fa-lock"></i> <strong>Oportunidades restantes: 0</strong> — pregunta bloqueada'
+      : '<i class="fa-solid fa-bullseye"></i> <strong>Oportunidades restantes: ' + restantes + ' de ' + MAX_OPORTUNIDADES + '</strong>';
+  }
+
+  function inicializarIndicadoresOportunidades() {
+    document.querySelectorAll('.eval-box button[onclick*="evaluarEjercicio"]').forEach(btn => {
+      const m = btn.getAttribute('onclick').match(/evaluarEjercicio\('([^']+)'/);
+      if (!m) return;
+      const id = m[1];
+      const estado = cargarEstadoIntentos(id);
+      const input = document.getElementById('ans_' + id);
+      if (input && estado.bloqueado) input.disabled = true;
+      actualizarIndicadorOportunidades(id, Math.max(0, MAX_OPORTUNIDADES - estado.intentosUsados), estado.bloqueado);
+    });
+  }
+
+  function addXP(amount, rewardKey) {
+    const key = rewardKey || ('generico_' + amount);
+    if (recompensasXP[key]) return false;
+    recompensasXP[key] = { amount: amount, fecha: new Date().toISOString() };
+    userXP += Number(amount) || 0;
+    localStorage.setItem(XP_STORAGE_KEY, String(userXP));
+    localStorage.setItem(XP_CLAIMS_KEY, JSON.stringify(recompensasXP));
+    updateXPDisplay();
+    return true;
+  }
+
+  function xpYaGanada(rewardKey) {
+    return !!recompensasXP[rewardKey];
+  }
+
+  function updateXPDisplay() {
+    document.getElementById('totalXP').textContent = userXP + ' XP';
+    
+    let level = 'Explorador';
+    if (userXP >= 201 && userXP <= 450) level = 'Analista';
+    else if (userXP >= 451 && userXP <= 700) level = 'Modelador';
+    else if (userXP > 700) level = 'Creador de Fenómenos';
+    
+    document.getElementById('playerLevel').textContent = level;
+  }
+
+  inicializarIndicadoresOportunidades();
+
+  // --- NAVEGACIÓN Y MENÚ MÓVIL (HAMBURGUESA) ---
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  function closeSidebarMobile() {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      item.classList.add('active');
+      document.getElementById(item.dataset.section).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  function toggleAccordion(header) {
+    const content = header.nextElementSibling;
+    const isOpen = content.classList.contains('show');
+    content.classList.toggle('show');
+    header.classList.toggle('active');
+    header.querySelector('span').innerHTML = isOpen ? '<i class="fa-solid fa-plus"></i>' : '<i class="fa-solid fa-minus"></i>';
+  }
+
+  // --- EVALUADOR INTERACTIVO DE EJERCICIOS Y SIMULADORES ---
+  function evaluarEjercicio(id, valorCorrecto, xpReward, simId, helpId) {
+    const input = document.getElementById('ans_' + id);
+    const msg = document.getElementById('msg_' + id);
+    const sim = document.getElementById(simId);
+    const help = document.getElementById(helpId);
+    const userVal = parseFloat(input.value);
+    const guardado = cargarEstadoIntentos(id);
+    const estado = estadoEjerciciosXP[id] || (estadoEjerciciosXP[id] = {
+      intentosUsados: guardado.intentosUsados || 0,
+      intentosFallidos: guardado.intentosUsados || 0,
+      xpOtorgada: xpYaGanada('ejercicio_' + id),
+      bloqueado: !!guardado.bloqueado
+    });
+
+    actualizarIndicadorOportunidades(id, Math.max(0, MAX_OPORTUNIDADES - estado.intentosUsados), estado.bloqueado);
+
+    if (xpYaGanada('ejercicio_' + id) || estado.xpOtorgada) {
+      estado.xpOtorgada = true;
+      msg.className = 'feedback-msg feedback-success';
+      msg.textContent = 'Este ejercicio ya fue resuelto correctamente. La recompensa es única.';
+      if (input) input.disabled = true;
+      return;
+    }
+    if (estado.bloqueado || estado.intentosUsados >= MAX_OPORTUNIDADES) {
+      estado.bloqueado = true;
+      guardarEstadoIntentos(id, estado);
+      actualizarIndicadorOportunidades(id, 0, true);
+      msg.className = 'feedback-msg feedback-error';
+      msg.textContent = 'Se agotaron tus 5 oportunidades. Ya no puedes resolver esta pregunta.'; if (sim) sim.style.display = 'block';
+      if (input) input.disabled = true;
+      return;
+    }
+    if (isNaN(userVal)) {
+      msg.className = 'feedback-msg feedback-error';
+      msg.textContent = 'Escribe tu intento antes de evaluar.';
+      return;
+    }
+    estado.intentosUsados += 1;
+
+    if (Math.abs(userVal - valorCorrecto) < 0.1) {
+      estado.xpOtorgada = true;
+      guardarEstadoIntentos(id, estado);
+      actualizarIndicadorOportunidades(id, MAX_OPORTUNIDADES - estado.intentosUsados, false);
+      msg.className = 'feedback-msg feedback-success';
+      msg.textContent = '¡Correcto! Has ganado +' + xpReward + ' XP. Esta recompensa solo se entrega una vez por ejercicio hasta recargar la página.';
+      if (sim) sim.style.display = 'block';
+      if (help) help.style.display = 'none';
+      if (input) input.disabled = true;
+      addXP(xpReward, 'ejercicio_' + id);
+    } else {
+      estado.intentosFallidos += 1;
+      const restantes = MAX_OPORTUNIDADES - estado.intentosUsados;
+      estado.bloqueado = restantes <= 0;
+      guardarEstadoIntentos(id, estado);
+      actualizarIndicadorOportunidades(id, Math.max(0, restantes), estado.bloqueado);
+      msg.className = 'feedback-msg feedback-error';
+      msg.textContent = restantes > 0
+        ? 'Respuesta incorrecta. Te quedan ' + restantes + ' oportunidades.'
+        : 'Respuesta incorrecta. Se agotaron tus 5 oportunidades. Ya no puedes resolver esta pregunta.';
+      if (sim) sim.style.display = 'none';
+      if (estado.bloqueado && input) input.disabled = true; if (estado.bloqueado && sim) sim.style.display = 'block';
+      if (help) {
+        help.style.display = 'block';
+        const prompts = {
+          a1_s1: ['Identifica qué cantidad es fija y qué cantidad depende de los kilómetros.', 'Escribe el modelo lineal como costo fijo + tarifa por kilómetro × distancia.', 'Sustituye la distancia indicada y realiza primero la multiplicación. Después suma el cargo fijo.'],
+          a2_s1: ['Distingue la carga inicial de la pérdida por hora.', 'Calcula la pérdida total multiplicando la pérdida de cada hora por el número de horas.', 'Resta esa pérdida de la carga inicial. Comprueba que el porcentaje quede entre 0 y 100.'],
+          b1_s1: ['Identifica el valor inicial y cuánto aumenta por minuto.', 'Sustituye el tiempo indicado en la función.', 'Respeta el orden de operaciones: multiplica antes de sumar.'],
+          reto_s1: ['Como se busca el mismo costo, iguala las expresiones de los dos planes.', 'Agrupa los términos con x en un lado y las constantes en el otro.', 'Divide ambos lados por el coeficiente que acompaña a x.'],
+          a1_s2: ['Calcula la temperatura en cada uno de los dos tiempos.', 'Usa razón promedio = (valor final − valor inicial) / (tiempo final − tiempo inicial).', 'Conserva el signo: una variación negativa indica que la temperatura disminuye.'],
+          a2_s2: ['Evalúa la función de posición en el tiempo inicial y en el final.', 'Resta las posiciones y divide entre el tiempo transcurrido.', 'Eleva al cuadrado el tiempo antes de multiplicar por su coeficiente.'],
+          pot_a1_s2: ['Escribe la regla: se multiplica por el exponente y se resta 1 al exponente.', 'Aplícala a x^3 para obtener V\'(x).', 'Sustituye x = 4 en la derivada, no en V(x).'],
+          pot_a2_s2: ['Aquí no se pide derivada: se pide el cambio real.', 'Calcula V(5) y V(4) con V(x) = x^3.', 'Resta el valor final menos el inicial.'],
+          pot_b1_s2: ['Deriva cada término por separado: 0.02x^2, 8x y 120.', 'La derivada de una constante es 0 y la de 8x es 8.', 'Sustituye x = 50 en C\'(x).'],
+          pot_b2_s2: ['Ganancia marginal = precio de venta menos costo marginal.', 'Usa el costo marginal que obtuviste en B.1.', 'Resta: 12 menos tu resultado de B.1.'],
+          an_c1_s2: ['Deriva s(t) = 3t^2 + 2t término por término.', 'La derivada de 3t^2 es 3(2t) y la de 2t es 2.', 'Sustituye t = 2 en s\'(t).'],
+          an_c2_s2: ['Iguala la derivada con 17: s\'(t) = 17.', 'Resuelve la ecuación lineal 6t + 2 = 17.', 'Despeja: resta 2 y divide entre 6.'],
+          ev1_s2: ['Evalúa d(v) = 0.006v^2 en v = 40 y en v = 60.', 'Eleva al cuadrado primero y luego multiplica por 0.006.', 'Resta d(60) menos d(40).'],
+          ev2_s2: ['Deriva d(v) = 0.006v^2 con la regla de la potencia.', 'Multiplica 0.006 por el exponente 2.', 'Sustituye v = 60 en d\'(v) = 0.012v.'],
+          a1_s3: ['Para maximizar una parábola, encuentra primero el punto crítico con la primera derivada.', 'Deriva término a término y resuelve la ecuación derivada = 0.', 'Verifica con la segunda derivada si el punto es máximo o mínimo. La pregunta pide las unidades, no la ganancia.'],
+          a2_s3: ['Deriva la función de temperatura.', 'Iguala la derivada a cero para localizar el tiempo crítico.', 'Usa la segunda derivada para confirmar si es máximo o mínimo.'],
+          b1_s3: ['Escribe la restricción del perímetro y despeja una variable.', 'Sustituye en la fórmula del área para dejar una función de una sola variable.', 'Deriva, iguala a cero y verifica con la segunda derivada.'],
+          b2_s3: ['Calcula la derivada de la función de costo.', 'Resuelve derivada = 0 y revisa si el valor pertenece al dominio físico permitido.', 'Si el punto crítico no es admisible, analiza el comportamiento de la función en el dominio.'],
+          a1_s4: ['Integra la función de velocidad respecto del tiempo.', 'Aplica los límites superior e inferior a la antiderivada.', 'Evalúa primero el límite superior y réstale la evaluación del límite inferior.'],
+          a2_s4: ['Identifica la tasa que debe integrarse y el intervalo solicitado.', 'Encuentra una antiderivada de cada término.', 'Evalúa en ambos extremos y calcula la diferencia.'],
+          b1_s4: ['Integra la función de costo marginal para obtener el costo variable acumulado.', 'Agrega el costo fijo indicado.', 'Sustituye la cantidad solicitada y revisa las unidades monetarias.'],
+          b2_s4: ['La energía acumulada es la integral de la potencia respecto del tiempo.', 'Integra cada término y aplica los límites del intervalo.', 'Expresa el resultado en Wh y, si se solicita, convierte a kWh dividiendo entre 1000.']
+        };
+        const steps = prompts[id] || ['Identifica la fórmula que corresponde al tipo de problema.', 'Sustituye los datos conocidos con sus unidades.', 'Realiza las operaciones en orden y comprueba que la respuesta tenga sentido.'];
+        const content = help.querySelector('.accordion-content');
+        if (content) {
+          content.innerHTML = '<p><strong>Pista 1:</strong> ' + steps[0] + '</p><p><strong>Pista 2:</strong> ' + steps[1] + '</p><p><strong>Pista 3:</strong> ' + steps[2] + '</p><p><em>Estas pistas no muestran el resultado. Corrige tu procedimiento y vuelve a evaluar.</em></p>';
+          content.classList.add('show');
+          const header = help.querySelector('.accordion-header');
+          if (header) header.classList.add('active');
+        }
+      }
+    }
+  }
+
+  // --- CONTENIDOS DE MODALES (EJEMPLOS Y SOLUCIONES) ---
+  const contenidos = {
+    'ex1-s1': { 
+      titulo: 'Ejemplo 1 – Consumo de datos móviles (Paso a Paso)', 
+      html: `<h4>Situación Real</h4><p>Un plan cuesta $200 fijos + $15 por GB extra. ¿Cuánto pagarás si usas 8 GB extra?</p><h4>Procedimiento Completo</h4><ol><li>Variables: \\(x = \\text{GB extra}\\), \\(y = \\text{Costo total}\\).</li><li>Modelo: \\(y = 15x + 200\\).</li><li>Sustitución: \\(y = 15(8) + 200 = 120 + 200 = 320\\).</li><li><strong>Resultado:</strong> $320 pesos.</li></ol>` 
+    },
+    'ex2-s1': { 
+      titulo: 'Ejemplo 2 – Altura de Dron (Paso a Paso)', 
+      html: `<h4>Situación Real</h4><p>\\(h(t) = -5t^2 + 30t\\). Hallar la altura máxima.</p><h4>Procedimiento Completo</h4><ol><li>Vértice en \\(t = -\\frac{b}{2a} = -\\frac{30}{2(-5)} = 3\\text{ segundos}\\).</li><li>\\(h(3) = -5(3)^2 + 30(3) = -45 + 90 = 45\\text{ metros}\\).</li><li><strong>Resultado:</strong> Altura máxima de \\(45\\text{ m}\\) a los 3 s.</li></ol>` 
+    },
+    'sol-a1-s1': { 
+      titulo: 'Solución docente – A1: app de delivery', 
+      html: `<h4>Enunciado y datos</h4><p>Cargo fijo: $35. Tarifa variable: $8 por kilómetro. Distancia: 6.5 km.</p><h4>Procedimiento desarrollado</h4><ol><li><strong>Definir variables:</strong> sea \\(k\\) la distancia en kilómetros y \\(C(k)\\) el costo en pesos.</li><li><strong>Construir el modelo:</strong> costo total = cargo fijo + (tarifa por kilómetro)(kilómetros). Por tanto, \\(C(k)=35+8k\\), equivalente a \\(C(k)=8k+35\\).</li><li><strong>Sustituir el dato:</strong> como \\(k=6.5\\), se escribe \\(C(6.5)=8(6.5)+35\\).</li><li><strong>Resolver multiplicación:</strong> \\(8(6.5)=52\\).</li><li><strong>Sumar el cargo fijo:</strong> \\(C(6.5)=52+35=87\\).</li><li><strong>Verificar e interpretar:</strong> el total supera los $35 fijos por el costo de recorrer 6.5 km. Resultado: <strong>$87</strong>.</li></ol>` 
+    },
+    'sol-a2-s1': { 
+      titulo: 'Solución docente – A2: batería del celular', 
+      html: `<h4>Datos y modelo</h4><p>Carga inicial: 100 %. Disminución constante: 4 puntos porcentuales por hora. Tiempo: 7 horas.</p><h4>Procedimiento desarrollado</h4><ol><li>Sea \\(h\\) el tiempo en horas y \\(B(h)\\) el porcentaje de batería restante.</li><li>Como la batería inicia en 100 y baja 4 por cada hora, el modelo es \\(B(h)=100-4h\\).</li><li>Sustituir \\(h=7\\): \\(B(7)=100-4(7)\\).</li><li>Multiplicar antes de restar: \\(4(7)=28\\).</li><li>Restar la pérdida a la carga inicial: \\(B(7)=100-28=72\\).</li><li>La respuesta es \\(72\\%\\). El modelo lineal supone una descarga constante y no considera variaciones reales del teléfono.</li></ol>` 
+    },
+    'sol-b1-s1': { 
+      titulo: 'Solución docente – B1: temperatura del horno', 
+      html: `<h4>Datos</h4><p>Modelo: \\(T(t)=20+15t\\). Temperatura inicial: 20 °C. Aumento: 15 °C por minuto. Tiempo: 8 minutos.</p><h4>Procedimiento desarrollado</h4><ol><li>Identificar la variable independiente \\(t\\), medida en minutos, y la dependiente \\(T(t)\\), medida en °C.</li><li>Sustituir \\(t=8\\): \\(T(8)=20+15(8)\\).</li><li>Resolver la multiplicación: \\(15(8)=120\\).</li><li>Sumar la temperatura inicial: \\(T(8)=20+120=140\\).</li><li>La temperatura calculada es <strong>140 °C</strong>. El modelo solo se afirma para los primeros minutos de precalentamiento; en un horno real el crecimiento no puede suponerse indefinido.</li></ol>` 
+    },
+    'sol-reto-s1': { 
+      titulo: 'Solución docente – reto: planes de internet', 
+      html: `<h4>Planteamiento</h4><p>Plan A: \\(A(x)=15x+200\\). Plan B: \\(B(x)=10x+280\\), donde \\(x\\) es la cantidad de GB extra. Se busca el consumo donde ambos cuestan igual.</p><h4>Despeje paso a paso</h4><ol><li>Igualar los costos: \\(15x+200=10x+280\\).</li><li>Restar \\(10x\\) en ambos lados: \\(5x+200=280\\).</li><li>Restar 200 en ambos lados: \\(5x=80\\).</li><li>Dividir ambos lados entre 5: \\(x=16\\) GB.</li><li>Comprobar: Plan A cuesta \\(15(16)+200=440\\); Plan B cuesta \\(10(16)+280=440\\).</li><li>La igualdad ocurre en 16 GB. Para decidir qué plan conviene por debajo o por encima del punto de equilibrio, se comparan los costos en el rango de consumo real. No se debe afirmar que un plan es óptimo en cualquier intervalo sin verificarlo.</li></ol>` 
+    },
+    'ex1-s2': {
+      titulo: 'Ejemplo 1 – Velocidad del Auto',
+      html: `<p>Posición: \\(s(t) = 4t^2 + 10t\\). Velocidad promedio entre \\(t=2\\) y \\(t=5\\):</p><p>\\(s(2) = 36\\), \\(s(5) = 150 \\rightarrow \\text{Promedio} = \\frac{150 - 36}{5 - 2} = 38\\text{ m/s}\\).</p>`
+    },
+    'ex2-s2': {
+      titulo: 'Ejemplo 2 – Crecimiento de una bacteria',
+      html: `<h4>Situación Real</h4>
+             <p>La población de bacterias se modela por \\(P(t)=200\\cdot2^t\\), donde \\(t\\) está en horas.</p>
+             <p>Estima la tasa de crecimiento instantánea en \\(t=3\\) usando \\(h=0.1\\) y \\(h=0.01\\).</p>
+             <h4>Procedimiento Completo</h4>
+             <p><strong>Definición aproximada:</strong> \\(P'(3)\\approx\\dfrac{P(3+h)-P(3)}{h}\\).</p>
+             <p><strong>Con \\(h=0.1\\):</strong> \\(P(3.1)=200\\cdot2^{3.1}\\approx1714.8\\), \\(P(3)=1600\\), por lo que \\(P'(3)\\approx\\dfrac{1714.8-1600}{0.1}=1148\\) bacterias/hora.</p>
+             <p><strong>Con \\(h=0.01\\):</strong> \\(P(3.01)\\approx1611.13\\), por lo que \\(P'(3)\\approx\\dfrac{1611.13-1600}{0.01}\approx1113\\) bacterias/hora.</p>
+             <p><strong>Interpretación:</strong> en \\(t=3\\) horas, la población está creciendo aproximadamente a 1100 bacterias por hora.</p>`
+    },
+    'sol-a1-s2': { titulo: 'Solución docente – A1: enfriamiento del café', html: `<h4>Datos y fórmula</h4><p>\\(T(t)=85-7t\\), con temperatura en °C y tiempo en minutos. Se pide la razón de cambio promedio entre \\(t=2\\) y \\(t=6\\).</p><h4>Procedimiento desarrollado</h4><ol><li>La fórmula es \\(r=\\frac{T(t_2)-T(t_1)}{t_2-t_1}\\).</li><li>Evaluar el tiempo inicial: \\(T(2)=85-7(2)=85-14=71\\,°C\\).</li><li>Evaluar el tiempo final: \\(T(6)=85-7(6)=85-42=43\\,°C\\).</li><li>Sustituir: \\(r=\\frac{43-71}{6-2}=\\frac{-28}{4}\\).</li><li>Dividir: \\(r=-7\\,°C/	ext{min}\\).</li><li>El signo negativo indica que la temperatura disminuye. El café se enfría a una tasa promedio de 7 °C por minuto durante ese intervalo.</li></ol>` },
+    'sol-a2-s2': { titulo: 'Solución docente – A2: posición del ciclista', html: `<h4>Datos y objetivo</h4><p>Posición: \\(s(t)=3t^2+2t\\) metros. Intervalo: de 1 s a 4 s. Se pide la velocidad promedio.</p><h4>Procedimiento desarrollado</h4><ol><li>Usar \\(v_{prom}=\\frac{s(t_2)-s(t_1)}{t_2-t_1}\\).</li><li>Calcular la posición inicial: \\(s(1)=3(1)^2+2(1)=3+2=5\\,m\\).</li><li>Calcular la posición final: \\(s(4)=3(4)^2+2(4)=3(16)+8=48+8=56\\,m\\).</li><li>Restar posiciones: \\(56-5=51\\,m\\).</li><li>Calcular el tiempo transcurrido: \\(4-1=3\\,s\\).</li><li>Dividir: \\(v_{prom}=\\frac{51}{3}=17\\,m/s\\). Es la velocidad promedio en el intervalo; no significa que la rapidez instantánea haya sido constante.</li></ol>` },
+    'ex1-s3': {
+      titulo: 'Ejemplo 1 – Máxima Altura de Proyectil',
+      html: `<p>\\(h(t) = -5t^2 + 40t \\rightarrow h'(t) = -10t + 40 = 0 \\rightarrow t = 4\\text{ s}\\). Altura máxima \\(h(4) = 80\\text{ m}\\).</p>`
+    },
+    'ex2-s3': {
+      titulo: 'Ejemplo 2 – Mínimo Costo',
+      html: `<p>\\(C(x) = 0.02x^2 - 4x + 500 \\rightarrow C'(x) = 0.04x - 4 = 0 \\rightarrow x = 100\\text{ unidades}\\). Costo mínimo = $300.</p>`
+    },
+    'sol-a1-s3': { titulo: 'Solución docente – A1: maximizar la ganancia', html: `<h4>Modelo y significado</h4><p>\\(G(x)=-2x^2+80x-200\\), en miles de pesos; \\(x\\) es el número de unidades vendidas. Como el coeficiente cuadrático es negativo, la parábola abre hacia abajo y puede tener un máximo.</p><h4>Procedimiento desarrollado</h4><ol><li><strong>Derivar término a término:</strong> \\(G'(x)=-4x+80\\).</li><li><strong>Buscar el punto crítico:</strong> igualar la derivada a cero: \\(-4x+80=0\\).</li><li><strong>Despejar:</strong> restar 80: \\(-4x=-80\\). Dividir entre -4: \\(x=20\\).</li><li><strong>Confirmar el máximo:</strong> \\(G''(x)=-4\\). Como \\(-4&lt;0\\), la función es cóncava hacia abajo y el punto crítico es un máximo.</li><li><strong>Calcular la ganancia:</strong> \\(G(20)=-2(20)^2+80(20)-200=-800+1600-200=600\\).</li><li>La ganancia máxima del modelo es 600 miles de pesos, es decir, <strong>$600,000</strong>, al vender 20 unidades según las unidades definidas en el enunciado. Si “x” representa unidades individuales, conviene revisar la escala del modelo porque el valor económico está expresado en miles de pesos.</li></ol>` },
+    'sol-a2-s3': { titulo: 'Solución docente – A2: temperatura máxima del horno', html: `<h4>Modelo</h4><p>\\(T(t)=-t^2+12t+20\\) °C. Se busca el instante y valor máximo.</p><h4>Procedimiento desarrollado</h4><ol><li>Derivar: \\(T'(t)=-2t+12\\).</li><li>Igualar a cero: \\(-2t+12=0\\).</li><li>Despejar: sumar \\(2t\\) a ambos lados, \\(12=2t\\); dividir entre 2: \\(t=6\\) minutos.</li><li>Segunda derivada: \\(T''(t)=-2&lt;0\\), por lo que el punto es un máximo.</li><li>Sustituir en el modelo original: \\(T(6)=-(6)^2+12(6)+20=-36+72+20=56\\).</li><li>La temperatura máxima modelada es <strong>56 °C a los 6 minutos</strong>.</li></ol>` },
+    'sol-b1-s3': { titulo: 'Solución docente – B1: cercado junto al río', html: `<h4>Definición de variables</h4><p>\\(x\\): cada lado perpendicular al río; \\(y\\): lado paralelo que sí lleva cerca. Solo se cercan tres lados y hay 80 m de malla.</p><h4>Despeje y optimización</h4><ol><li><strong>Restricción:</strong> \\(2x+y=80\\).</li><li><strong>Despejar \\(y\\):</strong> restar \\(2x\\) en ambos lados: \\(y=80-2x\\).</li><li><strong>Función de área:</strong> \\(A=xy\\). Sustituir el despeje: \\(A(x)=x(80-2x)=80x-2x^2\\).</li><li><strong>Derivar:</strong> \\(A'(x)=80-4x\\).</li><li><strong>Igualar a cero y despejar:</strong> \\(80-4x=0\\Rightarrow 4x=80\\Rightarrow x=20\\,m\\).</li><li><strong>Encontrar la otra dimensión:</strong> \\(y=80-2(20)=40\\,m\\).</li><li><strong>Verificar:</strong> \\(A''(x)=-4&lt;0\\), así que es máximo. Área: \\(A=20(40)=800\\,m^2\\).</li><li>Dimensiones óptimas: 20 m perpendicular al río y 40 m paralelo al río.</li></ol>` },
+    'sol-b2-s3': { titulo: 'Solución docente – B2: costo de producción', html: `<h4>Modelo y dominio</h4><p>\\(C(x)=0.01x^2+5x+200\\) dólares, con \\(x\\ge0\\) porque no se pueden producir artículos negativos.</p><h4>Procedimiento desarrollado</h4><ol><li>Derivar: \\(C'(x)=0.02x+5\\).</li><li>Resolver formalmente el punto crítico: \\(0.02x+5=0\\).</li><li>Restar 5: \\(0.02x=-5\\). Dividir entre 0.02: \\(x=-250\\).</li><li>Interpretar el dominio: \\(-250\\) no es admisible porque \\(x\\ge0\\).</li><li>Para todo \\(x\\ge0\\), \\(0.02x+5&gt;0\\), por lo que el costo aumenta al aumentar la producción.</li><li>El mínimo en el dominio permitido se alcanza en el extremo \\(x=0\\): \\(C(0)=200\\). Por tanto, el costo mínimo matemático es $200 si se admite no producir ninguna unidad. Si la fábrica debe producir al menos una unidad, el mínimo permitido sería en \\(x=1\\).</li></ol>` },
+    'ex1-s4': {
+      titulo: 'Ejemplo 1 – Distancia Recorrida',
+      html: `<p>\\(v(t) = 3t + 4\\). Distancia entre \\(t=2\\) y \\(t=6\\): \\(\\int_{2}^{6} (3t + 4)\\,dt = \\left[\\tfrac{3}{2}t^2 + 4t\\right]_{2}^{6} = 78 - 14 = 64\\text{ m}\\).</p>`
+    },
+    'ex2-s4': {
+      titulo: 'Ejemplo 2 – Costo Acumulado',
+      html: `<p>\\(C'(x) = 0.4x + 12\\), costo fijo 200. \\(C(50) = 0.2(50)^2 + 12(50) + 200 = 1300\\text{ pesos}\\).</p>`
+    },
+    'sol-a1-s4': { titulo: 'Solución docente – A1: distancia del ciclista', html: `<h4>Datos</h4><p>Velocidad \\(v(t)=2t+3\\) m/s, desde \\(t=1\\) s hasta \\(t=5\\) s. Como la velocidad es positiva en todo el intervalo, la integral coincide con la distancia recorrida.</p><h4>Integración paso a paso</h4><ol><li>Escribir la integral: \\(d=\\int_1^5(2t+3)\\,dt\\).</li><li>Integrar término a término: \\(\\int2t\\,dt=t^2\\) y \\(\\int3\\,dt=3t\\).</li><li>Agregar la constante de integración para la antiderivada general: \\(F(t)=t^2+3t+C\\). En una integral definida, la constante se cancela al restar extremos.</li><li>Aplicar el teorema fundamental: \\(d=[t^2+3t]_1^5=F(5)-F(1)\\).</li><li>Evaluar arriba: \\(F(5)=25+15=40\\). Evaluar abajo: \\(F(1)=1+3=4\\).</li><li>Restar: \\(d=40-4=36\\,m\\). El ciclista recorre 36 m durante ese intervalo.</li></ol>` },
+    'sol-a2-s4': { titulo: 'Solución docente – A2: crecimiento de bacterias', html: `<h4>Datos</h4><p>Tasa de crecimiento \\(r(t)=50+10t\\) bacterias/hora. Intervalo: de la hora 2 a la hora 6.</p><h4>Integración paso a paso</h4><ol><li>La acumulación es \\(N=\\int_2^6(50+10t)\\,dt\\).</li><li>Integrar cada término: \\(\\int50\\,dt=50t\\) y \\(\\int10t\\,dt=5t^2\\).</li><li>Antiderivada: \\(F(t)=50t+5t^2+C\\).</li><li>Aplicar límites: \\(N=[50t+5t^2]_2^6=F(6)-F(2)\\).</li><li>Extremo superior: \\(F(6)=50(6)+5(6)^2=300+180=480\\).</li><li>Extremo inferior: \\(F(2)=50(2)+5(2)^2=100+20=120\\).</li><li>Restar: \\(N=480-120=360\\). Se acumulan 360 bacterias durante el intervalo según la tasa indicada.</li></ol>` },
+    'sol-b1-s4': { titulo: 'Solución docente – B1: costo total de producción', html: `<h4>Datos</h4><p>Costo marginal \\(C'(x)=0.3x+8\\) y costo fijo \\(C(0)=150\\). Se pide el costo de producir 40 unidades.</p><h4>Integrar y usar el costo fijo</h4><ol><li>El costo marginal es la derivada del costo total, por eso hay que integrar: \\(C(x)=\\int(0.3x+8)\\,dx\\).</li><li>Integrar: \\(\\int0.3x\\,dx=0.15x^2\\) y \\(\\int8\\,dx=8x\\). Así, \\(C(x)=0.15x^2+8x+K\\).</li><li>Usar el costo fijo: \\(C(0)=150\\). Sustituir \\(x=0\\): \\(150=0+0+K\\), entonces \\(K=150\\).</li><li>Función total: \\(C(x)=0.15x^2+8x+150\\).</li><li>Sustituir \\(x=40\\): \\(C(40)=0.15(40)^2+8(40)+150\\).</li><li>Calcular: \\(40^2=1600\\), \\(0.15(1600)=240\\), \\(8(40)=320\\).</li><li>Sumar: \\(C(40)=240+320+150=710\\). Costo total: <strong>$710</strong>.</li></ol>` },
+    'sol-b2-s4': { titulo: 'Solución docente – B2: energía consumida por un motor', html: `<h4>Datos y relación física</h4><p>Potencia \\(P(t)=120+15t\\) watts durante 0 a 4 horas. La energía se obtiene integrando potencia respecto del tiempo.</p><h4>Integración paso a paso</h4><ol><li>Plantear: \\(E=\\int_0^4(120+15t)\\,dt\\). Las unidades son watt-hora (Wh), porque se integra potencia en watts respecto del tiempo en horas.</li><li>Integrar: \\(\\int120\\,dt=120t\\) y \\(\\int15t\\,dt=\\frac{15}{2}t^2=7.5t^2\\).</li><li>Antiderivada: \\(F(t)=120t+7.5t^2+C\\).</li><li>Aplicar los límites: \\(E=[120t+7.5t^2]_0^4=F(4)-F(0)\\).</li><li>Evaluar en 4: \\(120(4)+7.5(16)=480+120=600\\).</li><li>Evaluar en 0: \\(0+0=0\\). Restar: \\(E=600-0=600\\,Wh\\).</li><li>Conversión opcional: \\(600\\,Wh\\div1000=0.6\\,kWh\\). Resultado: <strong>600 Wh, equivalentes a 0.6 kWh</strong>.</li></ol>` },
+    'sol-pcaso-s2': {
+      titulo: 'Guía docente – Caso resuelto: límite de velocidad',
+      html: `<h4>Propósito didáctico</h4><p>Modelar el proceso completo (evaluar, promediar, derivar, interpretar y decidir) antes de que el alumno lo haga solo. Se espera que contraste su predicción inicial (25 %) con el resultado real (56 %).</p>
+<h4>Datos</h4><p>\\(d(v)=0.006v^2\\) (metros; \\(v\\) en km/h). Límites a comparar: 80 y 100 km/h.</p>
+<h4>Procedimiento explicado</h4><ol>
+<li><strong>Evaluar la función.</strong> \\(d(80)=0.006(6400)=38.4\\) m y \\(d(100)=0.006(10000)=60\\) m. Pida que primero eleven al cuadrado y después multipliquen por 0.006 (orden de operaciones).</li>
+<li><strong>Razón de cambio promedio.</strong> \\(\\frac{60-38.4}{100-80}=\\frac{21.6}{20}=1.08\\) m por km/h. Es la pendiente de la secante entre 80 y 100.</li>
+<li><strong>Derivar.</strong> Coeficiente 0.006 y exponente 2: \\(d'(v)=0.006(2)v^{2-1}=0.012v\\). Recuerde que el coeficiente se conserva y se multiplica por el exponente.</li>
+<li><strong>Razón instantánea.</strong> \\(d'(80)=0.96\\) y \\(d'(100)=1.2\\) m por km/h. El promedio 1.08 queda entre ambos valores; de hecho \\(d'(90)=0.012(90)=1.08\\): en una parábola el promedio coincide con la derivada en el punto medio.</li>
+<li><strong>Segunda derivada.</strong> \\(d''(v)=0.012>0\\): la rapidez con que crece el frenado no disminuye. Es un puente hacia la Sesión 3.</li>
+<li><strong>Decisión.</strong> \\(60-38.4=21.6\\) m más; \\(\\frac{21.6}{38.4}=0.5625\\), es decir 56 %. La velocidad sube 25 %, pero el frenado sube 56 % porque depende de \\(v^2\\) (\\(1.25^2=1.5625\\)).</li></ol>
+<h4>Cómo conducir la discusión</h4><ul><li>Pida que comparen su predicción con el resultado y expliquen la diferencia.</li><li>Pregunte: ¿qué significa que \\(d'(100)\\) sea mayor que \\(d'(80)\\)?</li><li>Pregunte por limitaciones del modelo: tiempo de reacción, pavimento mojado, peso del vehículo.</li></ul>
+<h4>Errores frecuentes</h4><ul><li>Confundir la razón promedio (1.08) con la instantánea.</li><li>Derivar como \\(0.006\\cdot v\\) (olvidar el exponente) o como \\(0.012v^2\\) (olvidar restar 1 al exponente).</li><li>Responder solo con números, sin interpretar unidades ni decidir.</li></ul>`
+    },
+    'sol-pa-s2': {
+      titulo: 'Solución docente – Problema A: cisterna cúbica',
+      html: `<h4>Datos y propósito</h4><p>\\(V(x)=x^3\\) en m³, con \\(x\\) el lado en metros. Se practica la regla de la potencia en un caso geométrico y se contrasta la tasa instantánea con el cambio real.</p>
+<h4>A.1 · \\(V'(4)\\)</h4><ol>
+<li><strong>Identificar la forma.</strong> \\(V(x)=x^n\\) con \\(n=3\\) y coeficiente 1.</li>
+<li><strong>Aplicar la regla.</strong> Multiplicar por el exponente y restar 1 al exponente: \\(V'(x)=3x^{3-1}=3x^2\\).</li>
+<li><strong>Sustituir en la derivada, no en la función original.</strong> \\(V'(4)=3(4)^2=3(16)=48\\).</li>
+<li><strong>Interpretar con unidades.</strong> Cuando el lado mide 4 m, la capacidad crece a razón de 48 m³ por metro de lado (unidad equivalente a m²).</li></ol>
+<p><strong>Respuesta final A.1:</strong> 48 m³ por metro.</p>
+<p><strong>Sentido geométrico:</strong> \\(3x^2\\) es el área de tres caras del cubo; al agrandar el lado, cada una de esas caras gana una capa delgada. Conecta con el video de 3Blue1Brown (cap. 3).</p>
+<p><strong>Errores frecuentes y retroalimentación:</strong> 64 (calculó \\(V(4)\\) en vez de \\(V'(4)\\)); 12 (hizo \\(3\\cdot4\\) y olvidó elevar al cuadrado); 192 (multiplicó por el exponente pero no restó 1: \\(3\\cdot4^3\\)).</p>
+<h4>A.2 · Cambio real de 4 m a 5 m</h4><ol>
+<li>\\(V(5)=5^3=125\\) y \\(V(4)=4^3=64\\).</li>
+<li>Cambio real: \\(125-64=61\\) m³.</li>
+<li><strong>Comparar con la tasa.</strong> \\(V'(4)=48\\) y \\(V'(5)=3(25)=75\\). El cambio real queda entre ambos porque la tasa crece mientras el lado aumenta.</li></ol>
+<p><strong>Respuesta final A.2:</strong> 61 m³.</p>
+<p><strong>Extensión opcional:</strong> con \\(x=4\\) y un aumento de 1 m, el cambio exacto se descompone como \\(3(4)^2(1)+3(4)(1)^2+(1)^3=48+12+1=61\\). El 48 es el término que aporta la derivada; los demás términos son la parte que la tasa instantánea no captura.</p>
+<p><strong>Errores frecuentes:</strong> responder 48 (confunde tasa instantánea con cambio real); 125 (usa \\(V(5)\\) sin restar); 75 (usa \\(V'(5)\\)).</p>`
+    },
+    'sol-pb-s2': {
+      titulo: 'Solución docente – Problema B: costo marginal de una panadería',
+      html: `<h4>Datos y propósito</h4><p>\\(C(x)=0.02x^2+8x+120\\) pesos, con \\(x\\) paquetes. Se practican la regla de la potencia en un polinomio, la derivada de una constante y la interpretación económica (costo marginal).</p>
+<h4>B.1 · Costo marginal \\(C'(50)\\)</h4><ol>
+<li><strong>Derivar término por término</strong> (regla de la suma): \\(0.02x^2\\to0.02(2x)=0.04x\\); \\(8x\\to8\\); \\(120\\to0\\) porque la derivada de una constante es cero.</li>
+<li>Resultado: \\(C'(x)=0.04x+8\\).</li>
+<li>Sustituir: \\(C'(50)=0.04(50)+8=2+8=10\\).</li>
+<li><strong>Interpretar.</strong> Producir el paquete número 51 cuesta aproximadamente 10 pesos más.</li></ol>
+<p><strong>Respuesta final B.1:</strong> 10 pesos por paquete.</p>
+<p><strong>Errores frecuentes:</strong> 570 (calculó \\(C(50)\\)); 2 (omitió el término 8); 408 (no derivó \\(8x\\) y lo dejó como \\(8x\\) evaluado en 51).</p>
+<h4>B.2 · Ganancia del paquete 51</h4><ol>
+<li>Ganancia marginal aproximada = precio - costo marginal.</li>
+<li>\\(12-10=2\\) pesos.</li>
+<li><strong>Verificación exacta.</strong> \\(C(51)=0.02(2601)+8(51)+120=52.02+408+120=580.02\\) y \\(C(50)=0.02(2500)+400+120=570\\). El costo real del paquete 51 es \\(10.02\\) pesos, casi igual al estimado.</li></ol>
+<p><strong>Respuesta final B.2:</strong> 2 pesos de ganancia aproximada.</p>
+<p><strong>Regla de decisión:</strong> mientras el costo marginal sea menor que el precio, producir un paquete más deja ganancia.</p>
+<p><strong>Puente a la Sesión 3:</strong> el costo marginal iguala el precio cuando \\(0.04x+8=12\\), es decir \\(x=100\\) paquetes. Invite a los alumnos a decir qué creen que ocurre después de 100 paquetes.</p>`
+    },
+    'sol-pc-s2': {
+      titulo: 'Solución docente – Problema C: el ciclista',
+      html: `<h4>Datos y propósito</h4><p>\\(s(t)=3t^2+2t\\) (metros; \\(t\\) en segundos). La velocidad promedio en [1, 4] es \\(\\frac{s(4)-s(1)}{4-1}=\\frac{56-5}{3}=17\\) m/s. El problema contrasta la razón promedio con la instantánea y es de nivel Analizar.</p>
+<h4>C.1 · Velocidad instantánea en \\(t=2\\) s</h4><ol>
+<li>Derivar cada término: \\(3t^2\\to3(2t)=6t\\) y \\(2t\\to2\\).</li>
+<li>\\(s'(t)=6t+2\\).</li>
+<li>Sustituir: \\(s'(2)=6(2)+2=14\\) m/s.</li></ol>
+<p><strong>Respuesta final C.1:</strong> 14 m/s.</p>
+<p><strong>Errores frecuentes:</strong> 17 (responde el promedio); 16 (\\(s(2)=3(4)+4=16\\), calculó la posición); 6 (olvida sumar el 2).</p>
+<h4>C.2 · ¿Cuándo la instantánea vale 17 m/s?</h4><ol>
+<li>Plantear la ecuación: \\(s'(t)=17\\).</li>
+<li>\\(6t+2=17\\).</li>
+<li>Restar 2 en ambos lados: \\(6t=15\\).</li>
+<li>Dividir entre 6: \\(t=2.5\\) s.</li></ol>
+<p><strong>Respuesta final C.2:</strong> \\(t=2.5\\) s.</p>
+<p><strong>Comprobación y explicación:</strong> \\(s'(1)=8\\) y \\(s'(4)=26\\); su promedio es \\(\\frac{8+26}{2}=17\\). Como \\(s'\\) es lineal, la velocidad promedio del intervalo coincide con la instantánea en el punto medio \\(\\frac{1+4}{2}=2.5\\). Es un caso especial de las cuadráticas, no una regla general para otras funciones.</p>
+<p><strong>Pregunta de verificación:</strong> ¿durante qué parte del intervalo el ciclista va más lento que 17 m/s? (Antes de 2.5 s.)</p>`
+    },
+    'sol-panalisis-s2': {
+      titulo: 'Solución docente – Preguntas de análisis (Desarrollo 2)',
+      html: `<h4>Cómo usar esta guía</h4><p>Las respuestas son abiertas. Busque que el alumno use datos de los problemas, el concepto correcto y unidades. Las respuestas modelo no deben copiarse, sirven para calibrar.</p>
+<h4>Pregunta 1 · Promedio vs. instantánea</h4><p><strong>Respuesta modelo:</strong> la razón de cambio promedio mide cuánto cambió una cantidad en un intervalo dividido entre la duración, y es la pendiente de la secante. La instantánea mide qué tan rápido cambia en un solo instante y es la pendiente de la tangente (la derivada). En el ciclista, el promedio de 1 a 4 s es 17 m/s, pero \\(s'(1)=8\\), \\(s'(2)=14\\) y \\(s'(4)=26\\); solo en 2.5 s va exactamente a 17 m/s.</p>
+<p><strong>Indicadores:</strong> menciona secante y tangente (o intervalo e instante); usa al menos un dato numérico; incluye unidades.</p>
+<h4>Pregunta 2 · ¿Por qué 61 no es 48?</h4><p><strong>Respuesta modelo:</strong> 48 m³ por metro es la tasa en el instante en que el lado mide 4 m y supondría que la tasa se mantiene. Pero la tasa aumenta con el lado (a 5 m es 75 m³ por metro), por eso el cambio real durante ese metro completo es 61 m³, mayor que 48 y menor que 75.</p>
+<p><strong>Indicadores:</strong> reconoce que la tasa no es constante; compara 48, 61 y 75; distingue cambio real de tasa instantánea.</p>
+<h4>Cómo calificar</h4><table><thead><tr><th>Nivel</th><th>Descripción</th></tr></thead><tbody>
+<tr><td>Logrado</td><td>Concepto correcto, datos de los problemas y unidades.</td></tr>
+<tr><td>En proceso</td><td>Concepto correcto, pero sin datos o sin unidades.</td></tr>
+<tr><td>Por mejorar</td><td>Confunde promedio con instantánea o solo repite la definición.</td></tr></tbody></table>
+<h4>Retroalimentación sugerida</h4><p>Si el alumno escribe "la instantánea es más exacta", pídale que explique exacta para qué: "en un instante, ¿qué dice la secante y qué dice la tangente?".</p>`
+    },
+    'sol-pe-s2': {
+      titulo: 'Solución docente – Reto: límite frente a una escuela',
+      html: `<h4>Datos y propósito</h4><p>\\(d(v)=0.006v^2\\) (m; \\(v\\) en km/h). Decisión entre 40 y 60 km/h. Nivel Evaluar: el alumno debe calcular, interpretar y justificar.</p>
+<h4>Reto 1 · Metros extra de frenado</h4><ol>
+<li>\\(d(40)=0.006(40)^2=0.006(1600)=9.6\\) m.</li>
+<li>\\(d(60)=0.006(60)^2=0.006(3600)=21.6\\) m.</li>
+<li>Diferencia: \\(21.6-9.6=12\\) m.</li></ol>
+<p><strong>Respuesta final Reto 1:</strong> 12 m.</p>
+<p><strong>Para profundizar:</strong> la velocidad sube 50 % (de 40 a 60), pero el frenado sube \\(\\frac{21.6}{9.6}=2.25\\) veces, es decir 125 %. Esto se debe a que \\(1.5^2=2.25\\).</p>
+<h4>Reto 2 · \\(d'(60)\\)</h4><ol>
+<li>Derivar con la regla de la potencia: \\(d'(v)=0.006(2)v=0.012v\\).</li>
+<li>Sustituir: \\(d'(60)=0.012(60)=0.72\\).</li>
+<li>Interpretar: a 60 km/h, cada km/h adicional añade 0.72 m de frenado.</li></ol>
+<p><strong>Respuesta final Reto 2:</strong> 0.72 m por km/h.</p>
+<p><strong>Comparación:</strong> \\(d'(40)=0.48\\), así que a 60 km/h cada km/h extra pesa 50 % más (\\(0.72/0.48=1.5\\)). Errores frecuentes: 21.6 (usa \\(d(60)\\)); 0.36 (olvida multiplicar por el exponente); 43.2 (escribe \\(0.006\\cdot60\\cdot2\\cdot60\\), deriva y evalúa mal).</p>
+<h4>Recomendación escrita · respuesta modelo</h4><p><em>"Se recomienda 40 km/h frente a la escuela. A 60 km/h el auto necesita 21.6 m para frenar, frente a 9.6 m a 40 km/h: 12 m más (125 % más), aunque la velocidad solo sube 50 %. Además \\(d'(60)=0.72\\) m por km/h contra \\(d'(40)=0.48\\), por lo que cada km/h extra aumenta más el riesgo a mayor velocidad. El modelo es simplificado y no incluye tiempo de reacción ni pavimento mojado, que harían la diferencia aún mayor. Por seguridad de los peatones, 40 km/h."</em></p>
+<h4>Aplicación de la rúbrica</h4><table><thead><tr><th>Criterio</th><th>Qué buscar</th></tr></thead><tbody>
+<tr><td>Cálculo con la regla de la potencia</td><td>\\(d'(v)=0.012v\\) correcta y evaluada en el punto.</td></tr>
+<tr><td>Interpretación con unidades</td><td>Dice m por km/h y explica qué significa.</td></tr>
+<tr><td>Justificación</td><td>Incluye (a) dato calculado, (b) derivada interpretada, (c) limitación del modelo y (d) decisión.</td></tr></tbody></table>
+<p>Una decisión distinta de 40 km/h es válida si está argumentada con los datos y reconoce sus consecuencias.</p>
+<p><strong>Extensión:</strong> pida evaluar un límite de 50 km/h: \\(d(50)=0.006(2500)=15\\) m y \\(d'(50)=0.6\\) m por km/h.</p>`
+    },
+    'sol-pcrear-s2': {
+      titulo: 'Guía docente – Crear y Ticket de salida',
+      html: `<h4>Qué se espera del producto</h4><p>Un fenómeno real modelado con una potencia, su derivada correcta, la interpretación con unidades y una decisión que el modelo permita apoyar.</p>
+<h4>Ejemplos modelo para calibrar</h4><ul>
+<li><strong>Pizza:</strong> \\(A(r)=\\pi r^2\\), entonces \\(A'(r)=2\\pi r\\). Con \\(r=10\\) cm, \\(A'(10)=20\\pi\\approx62.83\\) cm² por cm: cada centímetro extra de radio añade casi 63 cm² de pizza.</li>
+<li><strong>Caída libre:</strong> \\(s(t)=4.9t^2\\), entonces \\(s'(t)=9.8t\\). A los 3 s, \\(s'(3)=29.4\\) m/s.</li>
+<li><strong>Energía cinética:</strong> con masa de 1000 kg, \\(E(v)=500v^2\\), entonces \\(E'(v)=1000v\\). A 20 m/s, \\(E'(20)=20000\\) J por cada m/s.</li></ul>
+<h4>Lista de verificación para el docente</h4><ol>
+<li>La función contiene una potencia y el fenómeno es real.</li>
+<li>La derivada aplica bien la regla de la potencia (exponente multiplica, resta 1 al exponente).</li>
+<li>Interpreta la derivada con unidades (tasa de qué respecto a qué).</li>
+<li>La decisión se apoya en el resultado y menciona una limitación.</li>
+<li>La evidencia llega en el formato elegido por el alumno.</li></ol>
+<h4>Retroalimentación frecuente</h4><ul><li>Si la función es lineal, pida que agregue una potencia: "¿qué fenómeno cambia más rápido mientras más grande es?".</li><li>Si da la derivada sin unidades, pregunte: "¿qué mide cada unidad?".</li></ul>
+<h4>Uso del ticket de salida</h4><p>Agrupe a quienes marcaron "Necesito repasar" y asígneles el video en español o el caso resuelto como refuerzo; quienes marcaron "Muy seguro" pueden extender el Problema C. Las dudas escritas sirven como entrada para el inicio de la Sesión 3.</p>
+<p><strong>Importante:</strong> los formularios guardan la respuesta solo en el navegador del alumno. Pida la evidencia en el formato elegido (foto, esquema o audio) para poder revisarla.</p>`
+    },
+    'sol-intdef-s4': {
+      titulo: 'Solución docente – Ejercicio 1: integral definida',
+      html: `<h4>Planteamiento</h4><p>Resolver \\(\\int_1^4 3x^2\\,dx\\). La integral definida entrega la acumulación neta (el área bajo la curva) de \\(f(x)=3x^2\\) entre \\(x=1\\) y \\(x=4\\).</p>
+<h4>Procedimiento paso a paso</h4><ol>
+<li><strong>Encontrar una antiderivada.</strong> Se invierte la regla de la potencia: se suma 1 al exponente y se divide entre el nuevo exponente. \\(\\int3x^2\\,dx=3\\cdot\\frac{x^3}{3}=x^3\\). Se comprueba derivando: \\((x^3)'=3x^2\\).</li>
+<li><strong>Aplicar el Teorema Fundamental del Cálculo.</strong> \\(\\int_1^4 3x^2\\,dx=F(4)-F(1)\\), con \\(F(x)=x^3\\).</li>
+<li><strong>Evaluar en cada límite.</strong> \\(F(4)=4^3=64\\) y \\(F(1)=1^3=1\\).</li>
+<li><strong>Restar el valor final menos el inicial.</strong> \\(64-1=63\\).</li></ol>
+<p><strong>Resultado:</strong> 63 unidades cuadradas.</p>
+<h4>Verificación de sensatez</h4><p>La función crece de \\(f(1)=3\\) a \\(f(4)=48\\) en un ancho de 3. El área debe quedar entre \\(3\\cdot3=9\\) y \\(48\\cdot3=144\\); el valor 63 es razonable.</p>
+<h4>Errores frecuentes</h4><ul><li><strong>64:</strong> olvidó restar \\(F(1)\\).</li><li><strong>18:</strong> derivó en lugar de integrar (\\(6x\\) evaluada: \\(6\\cdot4-6\\cdot1\\)).</li><li><strong>45:</strong> evaluó el integrando (\\(f(4)-f(1)=48-3\\)).</li></ul>
+<p><strong>Para profundizar:</strong> en la integral definida no se escribe \\(C\\) porque se cancela: \\((F(4)+C)-(F(1)+C)=F(4)-F(1)\\).</p>`
+    },
+    'sol-intind-s4': {
+      titulo: 'Solución docente – Ejercicio 2: integral no definida',
+      html: `<h4>Planteamiento</h4><p>Resolver \\(\\int(5x^4-2x)\\,dx\\). Al no tener límites, el resultado es una familia de funciones (antiderivadas) y por eso incluye la constante \\(C\\).</p>
+<h4>Procedimiento paso a paso</h4><ol>
+<li><strong>Separar los términos.</strong> La integral de una resta es la resta de las integrales: \\(\\int5x^4\\,dx-\\int2x\\,dx\\).</li>
+<li><strong>Primer término.</strong> \\(\\int5x^4\\,dx=5\\cdot\\frac{x^5}{5}=x^5\\).</li>
+<li><strong>Segundo término.</strong> \\(\\int2x\\,dx=2\\cdot\\frac{x^2}{2}=x^2\\), por lo que \\(-\\int2x\\,dx=-x^2\\).</li>
+<li><strong>Agregar la constante.</strong> \\(x^5-x^2+C\\).</li>
+<li><strong>Verificar derivando.</strong> \\((x^5-x^2+C)'=5x^4-2x\\), que es el integrando original.</li></ol>
+<p><strong>Resultado:</strong> \\(x^5-x^2+C\\).</p>
+<h4>Errores frecuentes</h4><ul><li><strong>Omitir \\(C\\):</strong> es el error más común; recuerde que hay infinitas antiderivadas.</li><li><strong>No dividir entre el nuevo exponente:</strong> escribir \\(5x^5-2x^2\\).</li><li><strong>Derivar en vez de integrar:</strong> obtener \\(20x^3-2\\).</li></ul>
+<p><strong>Sugerencia:</strong> pida a los alumnos verificar siempre derivando su resultado; así comprueban solos si acertaron.</p>`
+    },
+    'sol-reto-final': {
+      titulo: 'Solucionario docente – reto integrador',
+      html: `<h4>Datos del caso</h4><p>Costo diario: \\(C(x)=0.02x^2+8x+120\\). Ganancia diaria: \\(G(x)=-0.03x^2+12x-150\\). \\(x\\) representa pedidos por día; hay 26 días laborales por mes.</p><h4>Fase 1 – Modelar</h4><ol><li>La función de ganancia es cuadrática: \\(G(x)=-0.03x^2+12x-150\\).</li><li>Como el coeficiente de \\(x^2\\) es negativo (\\(-0.03&lt;0\\)), la parábola abre hacia abajo; su vértice corresponde a la ganancia máxima matemática.</li></ol><h4>Fase 2 – Medir</h4><ol><li>Derivar: \\(G'(x)=-0.06x+12\\).</li><li>En \\(x=30\\): \\(G'(30)=-0.06(30)+12=-1.8+12=10.2\\). La ganancia aumenta localmente a razón de 10.2 unidades monetarias por pedido adicional, según las unidades del modelo.</li><li>En \\(x=50\\): \\(G'(50)=-0.06(50)+12=-3+12=9\\). La ganancia sigue aumentando, pero a una tasa menor.</li></ol><h4>Fase 3 – Optimizar con despeje</h4><ol><li>Igualar a cero: \\(-0.06x+12=0\\).</li><li>Restar 12: \\(-0.06x=-12\\).</li><li>Dividir entre \\(-0.06\\): \\(x=\\frac{-12}{-0.06}=200\\) pedidos por día.</li><li>Verificar: \\(G''(x)=-0.06&lt;0\\), por lo que el punto crítico es un máximo.</li><li>Calcular la ganancia: \\(G(200)=-0.03(200)^2+12(200)-150=-1200+2400-150=1050\\).</li></ol><h4>Fase 4 – Acumular el mes</h4><ol><li>Suponiendo que se mantiene esa ganancia diaria durante los 26 días: \\(G_{mes}=1050(26)\\).</li><li>Multiplicar: \\(1050(26)=27\\,300\\). Ganancia mensual modelada: <strong>$27,300</strong>, en las unidades monetarias usadas por el enunciado.</li></ol><h4>Fase 5 – Recomendación y observación importante</h4><p>El modelo recomienda operar alrededor de 200 pedidos diarios para maximizar la función de ganancia presentada. Antes de usarlo en una decisión real, se debe confirmar que las unidades monetarias, la demanda, la capacidad operativa y los costos estén expresados de manera consistente. La función de costo se proporciona como contexto, pero no se resta de la ganancia porque la función \\(G(x)\\) ya está definida explícitamente como ganancia.</p>`
+    }
+  };
+
+  // --- CONTROL DE MODALES Y CLAVE DOCENTE ---
+  let pendingSolId = null;
+
+  function contextoModal(id) {
+    const sesion = id.match(/-s([1-4])/);
+    let contenido = '';
+    const fichas = {
+      '1': `<div class="card highlight"><h4><i class="fa-solid fa-chart-line"></i> Ficha de la Sesión 1 — Funciones y modelación</h4><p><strong>Pregunta guía:</strong> ¿Qué está pasando?</p><p>Una función relaciona una variable independiente (entrada) con una variable dependiente (salida). Se trabaja con dominio, rango, comportamiento creciente/decreciente/constante, máximos y mínimos y representación gráfica. La modelación usa una función o gráfica para describir y predecir fenómenos reales como temperatura, crecimiento, consumo de datos, velocidad y costos.</p><p><strong>Idea clave:</strong> identifica qué variable controlas, qué variable responde, sus unidades y el dominio realista antes de calcular.</p></div>`,
+      '2': `<div class="card warning"><h4><i class="fa-solid fa-gauge-high"></i> Ficha de la Sesión 2 — Derivada y razón de cambio</h4><p><strong>Pregunta guía:</strong> ¿Qué tan rápido está cambiando?</p><p>La razón de cambio promedio es <strong>(f(b)−f(a))/(b−a)</strong> y representa la pendiente de una secante. La derivada representa la razón de cambio instantánea y la pendiente de la recta tangente: <strong>f'(x)=lim(h→0)[f(x+h)−f(x)]/h</strong>.</p><p>En contextos reales puede representar velocidad, tasa de crecimiento, costo marginal o rapidez de calentamiento/enfriamiento. Si f'(x)&gt;0 la función crece; si f'(x)&lt;0 decrece; si f'(x)=0 puede existir un máximo, mínimo o punto de inflexión.</p></div>`,
+      '3': `<div class="card success"><h4><i class="fa-solid fa-sliders"></i> Ficha de la Sesión 3 — Optimización</h4><p><strong>Pregunta guía:</strong> ¿Cuál es la mejor decisión?</p><p>Optimizar consiste en encontrar el valor que maximiza o minimiza una cantidad de interés, como beneficio, costo, área o tiempo. Los puntos críticos aparecen cuando <strong>f'(x)=0</strong> o cuando la derivada no existe.</p><p><strong>Criterio de primera derivada:</strong> cambio de + a − indica máximo relativo; de − a + indica mínimo relativo. <strong>Criterio de segunda derivada:</strong> si f''(c)&gt;0 hay mínimo relativo y si f''(c)&lt;0 hay máximo relativo, cuando f'(c)=0.</p><p>Proceso: identificar variables y objetivo → plantear función → usar restricciones → derivar → encontrar puntos críticos → verificar → interpretar en el contexto real.</p></div>`,
+      '4': `<div class="card purple"><h4><i class="fa-solid fa-chart-area"></i> Ficha de la Sesión 4 — Integral como acumulación</h4><p><strong>Pregunta guía:</strong> ¿Cuánto ocurrió realmente?</p><p>La integral definida <strong>∫ₐᵇ f(x) dx</strong> representa la acumulación neta entre a y b. Puede interpretarse como área neta bajo una curva: lo que está sobre el eje x aporta positivo y lo que está debajo aporta negativo.</p><p>Si F'(x)=f(x), el Teorema Fundamental del Cálculo establece que <strong>∫ₐᵇ f(x)dx=F(b)−F(a)</strong>. En aplicaciones, una integral puede representar distancia acumulada a partir de velocidad, costo total a partir de costo marginal, crecimiento acumulado o energía a partir de potencia.</p></div>`
+    };
+    if (sesion && fichas[sesion[1]]) contenido += fichas[sesion[1]];
+    else if (id === 'sol-reto-final') contenido = `<div class="card highlight"><h4><i class="fa-solid fa-trophy"></i> Ficha del Reto Final Integrador</h4><p>El reto reúne los cuatro niveles de la guía: <strong>modelar</strong> con funciones, <strong>medir</strong> cambios mediante derivadas, <strong>optimizar</strong> una decisión y <strong>acumular</strong> resultados mediante integración. La respuesta final debe interpretar las unidades y comprobar que la decisión tenga sentido en el contexto real.</p></div>`;
+    return contenido;
+  }
+
+  function openModal(id) {
+    const data = contenidos[id];
+    if (!data) return;
+    document.getElementById('modalTitle').textContent = data.titulo;
+    const contexto = contextoModal(id);
+    const body = document.getElementById('modalBody');
+    body.innerHTML = contexto + data.html;
+    if (String(id).startsWith('sol-')) {
+      body.classList.add('teacher-view');
+      const candidates = body.querySelectorAll('strong, b, p, li, h4, h5, div');
+      candidates.forEach(el => {
+        const t = (el.textContent || '').toLowerCase();
+        if (t.includes('resultado') || t.includes('respuesta final') || t.includes('conclusión') || t.includes('solución')) {
+          el.classList.add('resultado-docente');
+        }
+      });
+      const resultNodes = body.querySelectorAll('.resultado-docente');
+      if (resultNodes.length) {
+        resultNodes.forEach(el => {
+          if (el.tagName === 'P' || el.tagName === 'DIV') el.classList.add('teacher-result');
+        });
+      }
+    } else {
+      body.classList.remove('teacher-view');
+    }
+    renderMath(body);
+    document.getElementById('modalOverlay').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function pedirPassword(solId) {
+    pendingSolId = solId;
+    document.getElementById('passInput').value = '';
+    document.getElementById('passError').style.display = 'none';
+    document.getElementById('passOverlay').classList.add('show');
+    document.getElementById('passInput').focus();
+  }
+
+  function verificarPass() {
+    if (document.getElementById('passInput').value === 'Admin26*') {
+      const accion = pendingSolId;
+      closePass();
+
+      if (accion === 'reset-xp') {
+        try {
+          localStorage.removeItem('mathplus_xp_v2');
+          localStorage.removeItem('mathplus_xp_recompensas_v2');
+          localStorage.removeItem('xp');
+          localStorage.removeItem('xpClaims');
+          localStorage.removeItem(INTENTOS_STORAGE_KEY);
+        } catch (e) {}
+        userXP = 0;
+        recompensasXP = {};
+        Object.keys(estadoEjerciciosXP).forEach(k => delete estadoEjerciciosXP[k]);
+        document.querySelectorAll('input, textarea, select, button').forEach(el => {
+          if (el.id && (el.id === 'passInput' || el.closest('#passOverlay'))) return;
+          if (el.dataset && el.dataset.keepDisabled === 'true') return;
+          el.disabled = false;
+        });
+        document.querySelectorAll('.feedback-msg').forEach(el => { el.textContent = ''; el.style.display = 'none'; el.className = 'feedback-msg'; });
+        document.querySelectorAll('[id^="sim_"]').forEach(el => { el.style.display = 'none'; });
+        document.querySelectorAll('[id^="help_"]').forEach(el => { el.style.display = 'none'; });
+        updateXPDisplay();
+        alert('XP reiniciado correctamente. Los ejercicios vuelven a estar disponibles y tienes 5 intentos en cada uno.');
+        return;
+      }
+
+      openModal(accion);
+    } else {
+      document.getElementById('passError').style.display = 'block';
+    }
+  }
+
+  function closePass() { document.getElementById('passOverlay').classList.remove('show'); }
+  function closePassOutside(e) { if (e.target === document.getElementById('passOverlay')) closePass(); }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key !== 'Escape') return;
+    const passOverlay = document.getElementById('passOverlay');
+    const modalOverlay = document.getElementById('modalOverlay');
+    if (passOverlay && passOverlay.classList.contains('show')) {
+      closePass();
+      return;
+    }
+    if (modalOverlay && modalOverlay.classList.contains('show')) {
+      closeModal();
+    }
+  });
+
+  // --- SELECCIÓN DE OPCIONES Y GUARDADO DE FORMULARIOS LOCALSTORAGE ---
+  function seleccionarOpcion(element, sesionNum, opcNum) {
+    const parent = element.parentElement;
+    parent.querySelectorAll('.opcion-card').forEach(card => card.classList.remove('selected'));
+    element.classList.add('selected');
+    const label = document.getElementById('opcionSel' + sesionNum);
+    if(label) label.textContent = 'Opción ' + opcNum + ' seleccionada.';
+  }
+
+  function guardarForm(e, key, msgId, xpReward) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, k) => data[k] = value);
+    localStorage.setItem(key, JSON.stringify(data));
+
+    const msg = document.getElementById(msgId);
+    const recompensaKey = 'formulario_' + key;
+    const yaGanada = xpYaGanada(recompensaKey);
+    const entregada = addXP(xpReward, recompensaKey);
+    if(msg) {
+      msg.style.display = 'block';
+      msg.innerHTML = entregada
+        ? '<i class="fa-solid fa-circle-check"></i> ¡Guardado! +' + xpReward + ' XP. Esta recompensa ya quedó marcada como cobrada.'
+        : '<i class="fa-solid fa-circle-check"></i> ¡Guardado! Este trabajo ya estaba registrado; no se vuelve a entregar XP.';
+      setTimeout(() => { msg.style.display = 'none'; }, 5000);
+    }
+  }
+
+  function renderMath(element) {
+    if (window.renderMathInElement) {
+      renderMathInElement(element || document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\[', right: '\\]', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false}
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
+function evaluarTextoIntegralS4(){
+  const input=document.getElementById('ans_int_ind_s4');
+  const msg=document.getElementById('msg_int_ind_s4');
+  const sim=document.getElementById('sim_int_ind_s4');
+  const v=(input.value||'').replace(/\s/g,'').toLowerCase().replace(/\*/g,'');
+  const ok=(v.includes('x^5') && v.includes('-x^2') && v.includes('c'));
+  msg.className='feedback-msg '+(ok?'feedback-success':'feedback-error');
+  msg.style.display='block';
+  msg.textContent=ok?'¡Correcto! La constante C es necesaria. +80 XP':'Revisa las potencias y recuerda agregar la constante C.';
+  if(ok){ sim.style.display='block'; addXP(80,'int_ind_s4'); }
+}
+
+  // --- INICIALIZACIÓN AL CARGAR LA PÁGINA ---
+    // --- INICIALIZACIÓN AL CARGAR LA PÁGINA ---
+  document.addEventListener('DOMContentLoaded', () => {
+    updateXPDisplay();
+    renderMath();
+    bloquearAtajosYMenu();
+  });
+
+  // ================== PROTECCIÓN CONTRA CÓDIGO FUENTE ==================
+  function bloquearAtajosYMenu() {
+    // 1) Bloquear menú contextual (clic derecho)
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+      return false;
+    }, false);
+
+    // 2) Bloquear teclas y combinaciones peligrosas
+    document.addEventListener('keydown', function (e) {
+      const key = (e.key || '').toLowerCase();
+      const ctrl = e.ctrlKey || e.metaKey;   // Ctrl en Win/Linux, Cmd en Mac
+      const shift = e.shiftKey;
+      const alt = e.altKey;
+
+      // F12 → Developer Tools
+      if (key === 'f12' || e.keyCode === 123) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+
+      // Ctrl/Cmd + U  → Ver código fuente
+      if (ctrl && key === 'u') {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+
+      // Ctrl/Cmd + S  → Guardar página
+      if (ctrl && key === 's') {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+
+      // Ctrl/Cmd + Shift + I  → DevTools (Inspector)
+      if (ctrl && shift && key === 'i') {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+
+      // Ctrl/Cmd + Shift + J  → DevTools (Consola)
+      if (ctrl && shift && key === 'j') {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+
+      // Ctrl/Cmd + Shift + C  → Inspector de elementos
+      if (ctrl && shift && key === 'c') {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+
+      // Ctrl/Cmd + Shift + K  → Consola (Firefox)
+      if (ctrl && shift && key === 'k') {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+
+      // Cmd + Option + I / J / C / U  → Atajos de macOS
+      if (alt && ctrl && (key === 'i' || key === 'j' || key === 'c' || key === 'u')) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    }, true); // useCapture=true para interceptar antes que otros listeners
+
+    // 3) Bloquear arrastre de imágenes y selección de texto larga
+    //    (opcional: evita "Guardar imagen como…" y copiado masivo)
+    document.addEventListener('dragstart', function (e) {
+      if (e.target && e.target.tagName === 'IMG') {
+        e.preventDefault();
+      }
+    }, false);
+  }
+</script>
+</body>
+</html>
